@@ -1,6 +1,7 @@
 # Interview Questions
 
 ## 1.What is JavaScript?
+
 JavaScript (JS) is a lightweight interpreted or JIT-compiled programming language with first-class functions.
 
 ## 2.What are JavaScript data types?
