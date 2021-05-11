@@ -1,8 +1,12 @@
 # Angular Questions
-----------------------------------------------------------------------------------------
-Common:
 
-1. What are differences in difference Angular versions?
+## Angular versions?
+
+## Compilation:
+   ### Compiler vs Transpiler vs Interpreter
+   ### JIT vs AOT
+
+##
 	
 ----------------------------------------------------------------------------------------
 Reference: https://hackr.io/blog/angular-interview-questions
