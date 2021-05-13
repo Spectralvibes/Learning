@@ -1,4 +1,40 @@
 
+# Find unique elements in an Array:
+Using Set and Spread:
+```javascript
+var a = [1, 1, 2];
+
+[... new Set(a)]
+```
+Using Filter and indexOf:
+```javascript
+list = list.filter((currentItem, index, array) => array.indexOf(currentItem) === index)
+```
+Example that uses no libraries: this requires two new prototype functions, contains and unique:
+```javascript
+Array.prototype.contains = function(v) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] === v) return true;
+  }
+  return false;
+};
+
+Array.prototype.unique = function() {
+  var arr = [];
+  for (var i = 0; i < this.length; i++) {
+    if (!arr.contains(this[i])) {
+      arr.push(this[i]);
+    }
+  }
+  return arr;
+}
+
+var duplicates = [1, 3, 4, 2, 1, 2, 3, 8];
+var uniques = duplicates.unique(); // result = [1,3,4,2,8]
+
+console.log(uniques);
+```
+
 # What is the value of foo?
 
 var foo = 10 + '20';
@@ -48,16 +84,26 @@ setTimeout(function() {
 console.log('three');
 
 
-# Display array in flat structure
-arr = [1,[1,2],[1,2,3]]
->Solution 1
+# How to Flatten a Nested Javascript Array arr = [1,[1,2],[1,2,3]]
+```javascript
+let arr = [[1, 2],[3, 4],[5, 6, 7, 8, 9],[10, 11, 12]];
+// Expected output
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+```
+> concat() and apply()
+```javascript
+[].concat.apply([], arr);
+// [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+```
+> 
+>Using methods
 ```javascript
 arr.join();
 // Output: "1,1,2,1,2,3" 
 arr.flat();
 //Output: [1, 1, 2, 1, 2, 3]
 ```
->Solution 2
+>Without direct methods
 ```javascript
 arr.forEach(element => {
     if (typeof element === 'object') {
@@ -69,5 +115,6 @@ arr.forEach(element => {
     }
 })
 ```
+[Different ways](https://codeburst.io/how-to-flatten-a-nested-javascript-array-628e01b85512)
 [Array.prototype.flat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
 [Array.prototype.flat() polyfill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)(https://github.com/behnammodi/polyfill/blob/master/array.polyfill.js)

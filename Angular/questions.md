@@ -411,9 +411,6 @@ Normally an observer object can define any combination of next, error and comple
 # What is Template input variables?
 
 
-# What does asterisk (*) syntax means in the structural directives?
-
-
 # What is the expression context in Angular?
 
 
