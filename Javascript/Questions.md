@@ -160,13 +160,12 @@ A function that returns a function is called a Higher-Order Function.
 - Pure functions
 The function return values are identical for identical arguments.
 
+
 # Nested functions and closures
-You may nest a function within another function. The nested (inner) function is private to its containing (outer) function.
-
-It also forms a closure. A closure is an expression (most commonly, a function) that can have free variables together with an environment that binds those variables (that "closes" the expression).
-
-Since a nested function is a closure, this means that a nested function can "inherit" the arguments and variables of its containing function. In other words, the inner function contains the scope of the outer function.
-[More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#nested_functions_and_closures)
+- You may nest a function within another function. The nested (inner) function is private to its containing (outer) function.
+- It also forms a closure. A closure is an expression (most commonly, a function) that can have free variables together with an environment that binds those variables (that "closes" the expression).
+- Since a nested function is a closure, this means that a nested function can "inherit" the arguments and variables of its containing function. In other words, the inner function contains the scope of the outer function.
+[Closures on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#nested_functions_and_closures)
 
 
 # Event bubbling and capture:
@@ -192,6 +191,7 @@ When an event is fired on an element that has parent elements , modern browsers 
 # Explain the same-origin policy with regards to JavaScript.
 The same-origin policy is a critical security mechanism that restricts how a document or script loaded from one origin can interact with a resource from another origin. It helps isolate potentially malicious documents, reducing possible attack vectors.
 [More on MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
 
 # What is "use strict";? what are the advantages and disadvantages to using it? 
 JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript
@@ -253,42 +253,118 @@ ES6 includes the following new features:
 
 
 # What is spread operator?
+Spread syntax (...) allows an iterable such as an array expression or string to be expanded in places where zero or more arguments (for function calls) or elements (for array literals) are expected, or an object expression to be expanded in places where zero or more key-value pairs (for object literals) are expected.
+[Know more](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 
 
-# 46.	Identifiers
-# 47.	Literals
-# 48.	Primitive types & objects
-# 49.	Numbers=> Math
-# 50.	Strings
-# 51.	Special characters
-# 52.	Booleans
-# 53.	Symbols
-# 54.	Regular expressions
-# 55.	Objects
-# 56.	Number,String,Booolean Objects
-# 57.	Trailing commas in Objects n Arrays
-# 58.	Dates
-# 59.	Maps & Sets
-# 60.	Data type conversion/Coersion
-# 61.Control flow statements and flow patterns
-# 62.Expressions and Operators
-# 63.Destructuring
-# 67.	Pass by value n pass by reference
-# 69.	Arrow notation
-# 71. Scope:
-# 72.	Lexical vs dynamic scope
-# 73.	Global/block scope
-# 74.	Variable masking
-# 76.	IIFE
-# 77.	Functions n hoisting
-# 78.	Temporal dead zone
-# 80. Arrays: 
-# 81.	Methods
-# 82.	manipulation techniques
-# 85.	Multiple inheritance
-# 86.	Mixin
-# 87. interface
-# 88. Maps & Sets
+# Asynchronous JavaScript 
+[Know more](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous)
+
+
+# Keyed collections, Indexed collections
+- Keyed collections [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections)
+  - Map
+    ECMAScript 2015 introduces a new data structure to map values to values. A Map object is a simple key/value map and can iterate its elements in insertion order.
+    ```javascript
+    let sayings = new Map();
+    sayings.set('dog', 'woof');
+    sayings.set('cat', 'meow');
+    sayings.size; // 2
+    sayings.get('dog'); // woof
+    sayings.get('fox'); // undefined
+    sayings.has('bird'); // false
+    sayings.delete('dog');
+    sayings.has('dog'); // false
+
+    for (let [key, value] of sayings) {
+      console.log(key + ' goes ' + value);
+    }
+    // "cat goes meow"
+    // "elephant goes toot"
+    sayings.clear();
+    sayings.size; // 0
+    ```
+  - Set
+    Set objects are collections of values. You can iterate its elements in insertion order. A value in a Set may only occur once; it is unique in the Set's collection.
+    ```javascript
+    let mySet = new Set();
+    mySet.add(1);
+    mySet.add('some text');
+    mySet.add('foo');
+
+    mySet.has(1); // true
+    mySet.delete('foo');
+    mySet.size; // 2
+
+    for (let item of mySet) console.log(item);
+    // 1
+    // "some text"
+    ```
+- Indexed collections [Know more](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Indexed_collections)
+  - Array
+    An array is an ordered list of values that you refer to with a name and an index.
+  - Typed Array
+    JavaScript typed arrays are array-like objects and provide a mechanism for accessing raw binary data.
+
+
+# JavaScript Accessors (Getters and Setters)
+The getter and setter keyword are used for accessing the objects. The getter return value is used when a property is being accessed and the setter takes an argument and sets the property value inside the object to that passed argument.
+```JAVASCRIPT
+// Create an object:
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  language : "",
+  set lang(lang) {
+    this.language = lang;
+  },
+  get lang() {
+    return this.language;
+  }
+
+};
+// Set an object property using a setter:
+ person.lang = "en";
+// Display data from the object using a getter:
+console.log(person.lang); // en
+```
+[W3Schools](https://www.w3schools.com/js/js_object_accessors.asp)
+
+
+# Lexical vs dynamic scope
+- JavaScript does not, in fact, have dynamic scope. It has lexical scope. But the `this` mechanism is kind of like dynamic scope.
+- The key contrast: lexical scope is write-time, whereas dynamic scope (and `this`!) are runtime. Lexical scope cares where a function was declared, but dynamic scope cares where a function was called from.
+- Finally: `this` cares how a function was called, which shows how closely related the `this` mechanism is to the idea of dynamic scoping.
+
+# Global, local block scope
+- The Global scope
+  A variable exists inside or outside a block. If a variable is declared outside all functions or curly braces ({}), it exists in the global scope. The global variables can be accessed by any line of code in the program, including inside blocks.
+- The Local scope
+  In contrast to global variables, locally scoped ones are only visible within the function they are declared. Each function written in JavaScript creates a new local scope and every variable declared in this scope is a local variable. That means that variables with the same name can be used in different functions. However, any effort to reference a local variable outside its scope will result in a Reference Error.
+- The Block scope
+  - So far, we’ve seen variables defined with the var keyword. Var can declare a variable either in the global or local scope. The variables that are declared within the block scope are comparable to local ones. They are available within the block that they are defined.
+  - The main difference between the local scope and block scope is that the block statements (e.g. if conditions or for loops), don't create a new scope. So the var keyword will not have an effect, because the variables are still in the same scope.
+  - ES6 introduced block scope by using the let and const keywords. These two keywords are scoped within the block which are defined.
+> [More on dev.io](https://dev.to/ale3oula/the-hor-r-o-r-scope-global-local-and-block-scope-in-js-37a1#:~:text=The%20Block%20scope&text=Var%20can%20declare%20a%20variable,block%20that%20they%20are%20defined.)
+
+
+
+# Variable masking
+Transforming variable value to hide its original value. ***Needs modification***
+
+
+# Variable shadowing
+In computer programming, **variable shadowing** occurs when a variable declared within a certain scope (decision block, method, or inner class) has the same name as a variable declared in an outer scope.
+
+
+# IIFE
+An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined. 
+[MDN](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
+
+
+# Interface
+
+
 # 89. Exceptions & error handling
 # 90. Events:
 # 91. Async programming
@@ -300,6 +376,26 @@ ES6 includes the following new features:
 # 99. JavaScript memory management
 # 100. Applications caching
 # 101. Service worker
+
+# Identifiers
+# 47.	Literals
+# 48.	Primitive types & objects
+# 49.	Numbers=> Math
+# 50.	Strings
+# 51.	Special characters
+# 52.	Booleans
+# 53.	Symbols
+# 54.	Regular expressions
+# 55.	Objects
+# 57.	Trailing commas in Objects n Arrays
+# 58.	Dates
+# 60.	Data type conversion/Coersion
+# 61.Control flow statements and flow patterns
+# 62.Expressions and Operators
+# 63.Destructuring
+# 67.	Pass by value n pass by reference
+# 69.	Arrow notation
+# 71. Scope:
 
 # 32.What are the pros and cons of using Promises instead of callbacks?
 # 33.What are some of the advantages/disadvantages of writing JavaScript code in a language that compiles to JavaScript?
@@ -375,6 +471,16 @@ https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
 # What's the difference between a variable that is: null, undefined or undeclared?
 
 
+
+# Mixin
+A mixin is a class (interface, in WebAPI spec terms) in which some or all of its methods and/or properties are unimplemented, requiring that another class or interface provide the missing implementations. The new class or interface then includes both the properties and methods from the mixin as well as those it defines itself. All of the methods and properties are used exactly the same regardless of whether they're implemented in the mixin or the interface or class that implements the mixin.
+
+
+# Multiple inheritance
+An object can inherit the properties and values from unrelated parent objects. JavaScript does not support multiple inheritance.
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model#no_multiple_inheritance)
+
+
 # What are JavaScript data types?
 In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol (new in ECMAScript 2015).
 
@@ -395,6 +501,7 @@ Number(6).valueof()
 ```
 [More details...](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)
 
+# 78.	Temporal dead zone
 
 # What's a typical use case for anonymous functions?
 - Function expressions
