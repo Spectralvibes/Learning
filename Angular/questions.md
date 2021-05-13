@@ -19,9 +19,10 @@
 
 
 # Event handling in Angular
+> [Know more...](https://angular.io/guide/event-binding)
 
 
-# Sequence of Angular Lifecycle Hooks:
+# Angular Lifecycle Hooks:
  * Constructor()
  * OnChange()
  * OnInit()
@@ -31,44 +32,24 @@
 	 * AfterViewInit()
 	 * AfterViewChecked()
  * OnDestroy()
-
-
-# What are the lifecycle hooks for components and directives?
+> [Know more...](https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence)
 
 
 # Differentiate between Components and Directives in Angular.
   - **Components** break up the application into smaller parts.
   - **Directives** add behavior to an existing DOM element. 
 
+References:
+- https://stackoverflow.com/questions/32680244/directive-vs-component-in-angular
+- https://blog.angular-university.io/angular-components-and-directives-for-beginners/
 
-# What is RxJS?
+
+# What is RxJS? What are RxJS subjects, operators?
 RxJS is a library for composing asynchronous and callback-based code in a functional, reactive style using Observables. Many APIs such as HttpClient produce and consume RxJS Observables and also uses operators for processing observables. 
-	
 
-# What is subscribing?
-
-An Observable instance begins publishing values only when someone subscribes to it. 
-So you need to subscribe by calling the subscribe() method of the instance, passing an observer object to receive the notifications. 
-
-Let's take an example of creating and subscribing to a simple observable, with an observer that logs the received message to the console.
-Creates an observable sequence of 5 integers, starting from 1
-```javascript
-const source = range(1, 3);
-		
-// Create observer object
-const myObserver = {
-	next: x => console.log('Observer got a next value: ' + x),
-	error: err => console.error('Observer got an error: ' + err),
-	complete: () => console.log('Observer got a complete notification'),
-};
-
-// Execute with the observer object and Prints out each item
-myObservable.subscribe(myObserver);
-// => Observer got a next value: 1
-// => Observer got a next value: 2
-// => Observer got a next value: 3
-// => Observer got a complete notification
-```
+References:
+- [Subjects](https://www.learnrxjs.io/learn-rxjs/subjects)
+- [Operators](https://www.learnrxjs.io/learn-rxjs/operators)
 
 
 # What is an observable?
@@ -97,65 +78,6 @@ const observable = new Observable(observer => {
 - Promise Uses only .then() clause
 
 
-# What is an observer?
-Observer is an interface for a consumer of push-based notifications delivered by an Observable. It has below structure,
-```javascript
-interface Observer<T> {
-	closed?: boolean;
-	next: (value: T) => void;
-	error: (err: any) => void;
-	complete: () => void;
-}
-```
-A handler that implements the Observer interface for receiving observable notifications will be passed as a parameter for observable as below,
-```javascript
-myObservable.subscribe(myObserver);
-```
-> Note: If you don't supply a handler for a notification type, the observer ignores notifications of that type.
-	
-
-
-# What is multicasting?
-Multi-casting is the practice of broadcasting to a list of multiple subscribers in a single execution. Let's demonstrate the multi-casting feature,
-
-```javascript
-var source = Rx.Observable.from([1, 2, 3]);
-var subject = new Rx.Subject();
-var multicasted = source.multicast(subject);
-
-// These are, under the hood, `subject.subscribe({...})`:
-multicasted.subscribe({
-	next: (v) => console.log('observerA: ' + v)
-});
-multicasted.subscribe({
-	next: (v) => console.log('observerB: ' + v)
-});
-// This is, under the hood, `s
-```
- 
-	
-# How do you perform error handling in observables?
-You can handle errors by specifying an error callback on the observer instead of relying on try/catch which are ineffective in asynchronous environment. 
-Example, you can define error callback as below:
-```javascript
-myObservable.subscribe({
-	next(num) { console.log('Next num: ' + num)},
-	error(err) { console.log('Received an errror: ' + err)}
-});
-```
-
-
-# What is the short hand notation for subscribe method?
-The subscribe() method can accept callback function definitions in line, for next, error, and complete handlers is known as short hand notation or Subscribe method with positional arguments. For example, you can define subscribe method as below:
-```javascript
-myObservable.subscribe(
-	x => console.log('Observer got a next value: ' + x),
-	err => console.error('Observer got an error: ' + err),
-	() => console.log('Observer got a complete notification')
-);
-```
-
-
 # What are the utility functions provided by RxJS?
 The RxJS library also provides below utility functions for creating and working with observables.
 - Converting existing code for async operations into observables
@@ -164,43 +86,10 @@ The RxJS library also provides below utility functions for creating and working 
 - Filtering streams
 - Composing multiple streams
 
-
-# What are observable creation functions?
-RxJS provides creation functions for the process of creating observables from things such as promises, events, timers and Ajax requests. Let us explain each of them with an example:
-
-Create an observable from a promise
-```javascript
-import { from } from 'rxjs'; // from function
-const data = from(fetch('/api/endpoint')); //Created from Promise
-data.subscribe({
-	next(response) { console.log(response); },
-	error(err) { console.error('Error: ' + err); },
-	complete() { console.log('Completed'); }
-});
-```
-Create an observable that creates an AJAX request
-```javascript
-import { ajax } from 'rxjs/ajax'; // ajax function
-const apiData = ajax('/api/data'); // Created from AJAX request
-// Subscribe to create the request
-apiData.subscribe(res => console.log(res.status, res.response));
-```
-Create an observable from a counter
-```javascript
-import { interval } from 'rxjs'; // interval function
-const secondsCounter = interval(1000); // Created from Counter value
-secondsCounter.subscribe(n =>
-console.log(`Counter value: ${n}`));
-```
-Create an observable from an event
-```javascript		
-import { fromEvent } from 'rxjs';
-const el = document.getElementById('custom-element');
-const mouseMoves = fromEvent(el, 'mousemove');
-const subscription = mouseMoves.subscribe((e: MouseEvent) => {
-	console.log(`Coordnitaes of mouse pointer: ${e.clientX} * ${e.clientY}`);
-});
-```
+- map() : Used to map values of different data types.
+- filter() : Used for filtering streams.
+- concat() : Used to concatenate multiple strings.
+- merge(): Used to recursively descend into object properties in the source copy, while forming a deep copy of the same.
 
 
 # What are components?
@@ -213,14 +102,15 @@ const subscription = mouseMoves.subscribe((e: MouseEvent) => {
 
 # What is a module?
 NgModules are containers for a cohesive block of code dedicated to an application domain, a workflow, or a closely related set of capabilities. The application is divided into separate modules to separate the functionality of your application.
-> Reference: https://hackr.io/blog/angular-interview-questions
+> [Know more...](https://hackr.io/blog/angular-interview-questions)
 
 
 # What is Redux? 
 - It is a library which helps us maintain the state of the application. 
 - Redux is not required in applications that are simple with the simple data flow, 
 - it is used in Single Page Applications that have complex data flow. 
-
+## What Is Flux?
+Flux is a data flow architecture created by Facebook back in 2014. 
 
 # What is Data Binding? How many ways it can be done?
 - Event Binding:
@@ -255,31 +145,28 @@ Type: Two-way
 # What is ViewEncapsulation and how many ways are there do to do it in Angular?
 To put simply, ViewEncapsulation determines whether the styles defined in a particular component will affect the entire application or not. Angular supports 3 types of ViewEncapsulation:
 - Emulated: Styles used in other HTML spread to the component
-- Native: Styles used in other HTML doesnâ€™t spread to the component
+- Native: Styles used in other HTML doesn't spread to the component
 - None: Styles defined in a component are visible to all components of the application
 
 
 # What is ng-template, ng-container, ng-content directive?
- - **<ng-template>**: As the name suggests the <ng-template> is a template element that Angular uses with structural directives (*ngIf, *ngFor, [ngSwitch] and custom directives).
-- **<ng-container>**: The Angular <ng-container> is a grouping element that doesn't interfere with styles or layout because Angular doesn't put it in the DOM.
-- **<ng-content>**: You use the <ng-content></ng-content> tag as a placeholder for that dynamic content, then when the template is parsed Angular will replace that placeholder tag with your content. Think of it like curly brace interpolation, but on a bigger scale. The technical term for this is â€œcontent projection" because you are projecting content from the parent component into the designated child component.
->Reference: https://medium.com/@joshblf/wtf-is-ng-content-8382b2a664e1
+ - **`<ng-template>`**: As the name suggests the `<ng-template>` is a template element that Angular uses with structural directives (*ngIf, *ngFor, [ngSwitch] and custom directives).
+- **`<ng-container>`**: The Angular `<ng-container>` is a grouping element that doesn't interfere with styles or layout because Angular doesn't put it in the DOM.
+- **`<ng-content>`**: You use the `<ng-content></ng-content>` tag as a placeholder for that dynamic content, then when the template is parsed Angular will replace that placeholder tag with your content. Think of it like curly brace interpolation, but on a bigger scale. The technical term for this is "content projection" because you are projecting content from the parent component into the designated child component.
+> [Know more...](https://medium.com/@joshblf/wtf-is-ng-content-8382b2a664e1)
 
 
 # Why prioritize TypeScript over JavaScript in Angular?
+> [Know more...](https://stackoverflow.com/questions/12694530/what-is-typescript-and-why-would-i-use-it-in-place-of-javascript)
+> [Know more...](https://dzone.com/articles/what-is-typescript-and-why-use-it#:~:text=TypeScript%20simplifies%20JavaScript%20code%2C%20making%20it%20easier%20to%20read%20and%20debug.&text=TypeScript%20provides%20highly%20productive%20development,huge%20improvement%20over%20plain%20JavaScript.)
 
 
 # Angular Authentication and Authorization
+> [Know more...](https://www.tutorialspoint.com/angular8/angular8_authentication_and_authorization.htm)
 
 
 # What is the purpose of using package.json in the angular project?
-
-
-# To manage the dependencies of the project. 
-If we are using typescript in the angular project then we can mention the typescript package and version of typescript in package.json.
-
-
-# How is SPA (Single Page Application) technology different from the traditional web technology?
+> [package.json](https://nodejs.org/en/knowledge/getting-started/npm/what-is-the-file-package-json/#:~:text=All%20npm%20packages%20contain%20a,as%20handle%20the%20project%27s%20dependencies.&text=The%20package.,-json%20file%20is)
 
 
 # What does a Subscribe method do in Angular?
@@ -290,9 +177,6 @@ It is a method which is subscribed to an observable. Whenever the subscribe meth
 When an observable or promise returns something, we use a temporary property to hold the content. Later, we bind the same content to the template. 
 With the usage of AsyncPipe, the promise or observable can be directly used in a template and a temporary property is not required.
 - **Purpose**: The AsyncPipe subscribes to an observable or promise and returns the latest value it has emitted. When a new value is emitted, the pipe marks the component to be checked for changes.
-
-# Differentiate between ng-Class and ng-Style.
-In ng-Class, loading of CSS class is possible; whereas, in ng-Style we can set the CSS style. 
 
 
 # What is metadata?
@@ -623,7 +507,7 @@ Normally an observer object can define any combination of next, error and comple
 # If you do not know the number of arguments to be passed to function in advance, you should use _______ parameter type.
 
 
-# _____ keyword is used to access classâ€™s member variables and functions inside class member function.
+# _____ keyword is used to access class's member variables and functions inside class member function.
 
 
 # We must import ____________ module to use [(ngModel)].
@@ -641,7 +525,7 @@ Normally an observer object can define any combination of next, error and comple
 # You can create local HTML reference of HTML tag using variable which starts with character: @ # * &
 
 
-# You can access HTML local reference alias in componentâ€™s typescript code using ___________ decorator.
+# You can access HTML local reference alias in component's typescript code using ___________ decorator.
 
 
 # In template driven form _________ object is created internally whenever we have below code   <form #heroForm='ngForm'>   whereas in reactive form, we have to create this object explicitly.
@@ -761,6 +645,138 @@ Normally an observer object can define any combination of next, error and comple
 
 # What are es6 modules?
 
+# What is lint?
+
+
 
 # Which of the Angular life cycle component execution happens when a data-bound input value updates?
 		ngOnChanges()
+
+
+# What is subscribing?
+
+An Observable instance begins publishing values only when someone subscribes to it. 
+So you need to subscribe by calling the subscribe() method of the instance, passing an observer object to receive the notifications. 
+
+Let's take an example of creating and subscribing to a simple observable, with an observer that logs the received message to the console.
+Creates an observable sequence of 5 integers, starting from 1
+```javascript
+const source = range(1, 3);
+		
+// Create observer object
+const myObserver = {
+	next: x => console.log('Observer got a next value: ' + x),
+	error: err => console.error('Observer got an error: ' + err),
+	complete: () => console.log('Observer got a complete notification'),
+};
+
+// Execute with the observer object and Prints out each item
+myObservable.subscribe(myObserver);
+// => Observer got a next value: 1
+// => Observer got a next value: 2
+// => Observer got a next value: 3
+// => Observer got a complete notification
+```
+
+
+# What is an observer?
+Observer is an interface for a consumer of push-based notifications delivered by an Observable. It has below structure,
+```javascript
+interface Observer<T> {
+	closed?: boolean;
+	next: (value: T) => void;
+	error: (err: any) => void;
+	complete: () => void;
+}
+```
+A handler that implements the Observer interface for receiving observable notifications will be passed as a parameter for observable as below,
+```javascript
+myObservable.subscribe(myObserver);
+```
+> Note: If you don't supply a handler for a notification type, the observer ignores notifications of that type.
+
+
+# What is multicasting?
+Multi-casting is the practice of broadcasting to a list of multiple subscribers in a single execution. Let's demonstrate the multi-casting feature,
+
+```javascript
+var source = Rx.Observable.from([1, 2, 3]);
+var subject = new Rx.Subject();
+var multicasted = source.multicast(subject);
+
+// These are, under the hood, `subject.subscribe({...})`:
+multicasted.subscribe({
+	next: (v) => console.log('observerA: ' + v)
+});
+multicasted.subscribe({
+	next: (v) => console.log('observerB: ' + v)
+});
+// This is, under the hood, `s
+```
+ 
+	
+# How do you perform error handling in observables?
+You can handle errors by specifying an error callback on the observer instead of relying on try/catch which are ineffective in asynchronous environment. 
+Example, you can define error callback as below:
+```javascript
+myObservable.subscribe({
+	next(num) { console.log('Next num: ' + num)},
+	error(err) { console.log('Received an errror: ' + err)}
+});
+```
+
+
+# What is the short hand notation for subscribe method?
+The subscribe() method can accept callback function definitions in line, for next, error, and complete handlers is known as short hand notation or Subscribe method with positional arguments. For example, you can define subscribe method as below:
+```javascript
+myObservable.subscribe(
+	x => console.log('Observer got a next value: ' + x),
+	err => console.error('Observer got an error: ' + err),
+	() => console.log('Observer got a complete notification')
+);
+```
+
+
+# What are observable creation functions?
+RxJS provides creation functions for the process of creating observables from things such as promises, events, timers and Ajax requests. Let us explain each of them with an example:
+
+Create an observable from a promise
+```javascript
+import { from } from 'rxjs'; // from function
+const data = from(fetch('/api/endpoint')); //Created from Promise
+data.subscribe({
+	next(response) { console.log(response); },
+	error(err) { console.error('Error: ' + err); },
+	complete() { console.log('Completed'); }
+});
+```
+Create an observable that creates an AJAX request
+```javascript
+import { ajax } from 'rxjs/ajax'; // ajax function
+const apiData = ajax('/api/data'); // Created from AJAX request
+// Subscribe to create the request
+apiData.subscribe(res => console.log(res.status, res.response));
+```
+Create an observable from a counter
+```javascript
+import { interval } from 'rxjs'; // interval function
+const secondsCounter = interval(1000); // Created from Counter value
+secondsCounter.subscribe(n =>
+console.log(`Counter value: ${n}`));
+```
+Create an observable from an event
+```javascript		
+import { fromEvent } from 'rxjs';
+const el = document.getElementById('custom-element');
+const mouseMoves = fromEvent(el, 'mousemove');
+const subscription = mouseMoves.subscribe((e: MouseEvent) => {
+	console.log(`Coordnitaes of mouse pointer: ${e.clientX} * ${e.clientY}`);
+});
+```
+
+
+# How is SPA (Single Page Application) technology different from the traditional web technology?
+
+
+# Differentiate between ng-Class and ng-Style.
+In ng-Class, loading of CSS class is possible; whereas, in ng-Style we can set the CSS style. 
