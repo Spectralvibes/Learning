@@ -90,6 +90,8 @@ ________________________________________________________________________________
 	
 	[More...](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 ________________________________________________________________________________________________________________________________________
+* # 22.What's the difference between an "attribute" and a "property"?
+
 * ## What are custom attributes in HTML5?
 	The data-* attributes is used to store custom data private to the page or application.
 
