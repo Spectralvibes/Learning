@@ -15,9 +15,9 @@ JavaScript (JS) is a lightweight interpreted or JIT-compiled programming languag
 - Redeclaration
   - var will let you re-declare the same variable in the same scope
   - let raises a SyntaxError
-[More on let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
-[More on const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
-[More on var](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
+- [More on let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+- [More on const](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
+- [More on var](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
 
 
 # Why closure works differently with var and let in below example?
@@ -54,8 +54,8 @@ for (let i = 0; i < 10; i++) process.nextTick(_ => console.log(i)); does "desuga
           i++;
           …
 ```
-[ECMA specification](https://262.ecma-international.org/6.0/#sec-createperiterationenvironment)
-[Stackoverflow answer](https://stackoverflow.com/questions/30899612/explanation-of-let-and-block-scoping-with-for-loops)
+- [ECMA specification](https://262.ecma-international.org/6.0/#sec-createperiterationenvironment)
+- [Stackoverflow answer](https://stackoverflow.com/questions/30899612/explanation-of-let-and-block-scoping-with-for-loops)
 
 # What is ‘this’ keyword in JavaScript?
 >The `this` keyword refers to the function's execution context. `this` evaluates to the value of the ThisBinding of the current execution context
@@ -66,8 +66,9 @@ It has different values depending on where it is used:
 - In a function, in strict mode, this is undefined.
 - In an event, this refers to the element that received the event.
 - Methods like call(), and apply() can refer this to any object paased as an argument.
-[More on MDN...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
-[More on W3Schools...](https://www.w3schools.com/js/js_this.asp)
+
+- [More on MDN...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
+- [More on W3Schools...](https://www.w3schools.com/js/js_this.asp)
 
 
 # Array.prototype.map()
@@ -90,8 +91,9 @@ let roots = numbers.map(function(num) {
 # Explain event delegation
 - The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor.
 - In the handler we get event.target to see where the event actually happened and handle it.
-[David Walsh blog](https://davidwalsh.name/event-delegate)
-[Dmitri Pavlutin blog](https://dmitripavlutin.com/javascript-event-delegation/)
+
+- [David Walsh blog](https://davidwalsh.name/event-delegate)
+- [Dmitri Pavlutin blog](https://dmitripavlutin.com/javascript-event-delegation/)
 
 
 # Events in detail
@@ -100,8 +102,8 @@ let roots = numbers.map(function(num) {
 
 # Explain how prototypal inheritance works?
 JavaScript objects are dynamic "bags" of properties (referred to as own properties). JavaScript objects have a link to a prototype object. When trying to access a property of an object, the property will not only be sought on the object but on the prototype of the object, the prototype of the prototype, and so on until either a property with a matching name is found or the end of the prototype chain is reached.
-[Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#inheritance_with_the_prototype_chain)
-[Why prototypical inheritance matters](http://aaditmshah.github.io/why-prototypal-inheritance-matters/)
+- [Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#inheritance_with_the_prototype_chain)
+- [Why prototypical inheritance matters](http://aaditmshah.github.io/why-prototypal-inheritance-matters/)
 
 
 # Different ways to create objects and the resulting prototype chain:
@@ -348,7 +350,6 @@ console.log(person.lang); // en
 > [More on dev.io](https://dev.to/ale3oula/the-hor-r-o-r-scope-global-local-and-block-scope-in-js-37a1#:~:text=The%20Block%20scope&text=Var%20can%20declare%20a%20variable,block%20that%20they%20are%20defined.)
 
 
-
 # Variable masking
 Transforming variable value to hide its original value. ***Needs modification***
 
@@ -365,10 +366,27 @@ An IIFE (Immediately Invoked Function Expression) is a JavaScript function that 
 # Interface
 
 
-# 89. Exceptions & error handling
+# Callback function
+- A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+- Where callbacks really shine are in asynchronous functions, where one function has to wait for another function (like waiting for a file to load).
+- **Callback hell**: Callback hell is when we nest multiple asynchronous operations one after the other. By nesting callbacks in such a way, we easily end up with error-prone, hard to read, and hard to maintain code.
+
+# Exceptions & error handling
+
+[More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+
+# What are falsy values in javascript?
+The following values evaluate to false (also known as Falsy values):
+- false
+- undefined
+- null
+- 0
+- NaN
+- the empty string ("")
+
 # 90. Events:
 # 91. Async programming
-# 92. Callbacks
+# 92. 
 # 93. Promises
 # 96. Ajax & JQuery
 # 97. valueof and unboxing
@@ -405,6 +423,18 @@ An IIFE (Immediately Invoked Function Expression) is a JavaScript function that 
 # 37.Explain the difference between synchronous and asynchronous functions.
 # 38.What is event loop? What is the difference between call stack and task queue?
 # 40. What is MonkeyPatching?
+
+
+# What is Error Object? What are runtime Errors in javascript?
+**Error objects** are thrown when runtime errors occur. The Error object can also be used as a base object for user-defined exceptions. See below for standard built-in error types.
+- EvalError: Creates an instance representing an error that occurs regarding the global function eval().
+- RangeError: Creates an instance representing an error that occurs when a numeric variable or parameter is outside of its valid range.
+- ReferenceError: Creates an instance representing an error that occurs when de-referencing an invalid reference.
+- SyntaxError: Creates an instance representing a syntax error.
+- TypeError: Creates an instance representing an error that occurs when a variable or parameter is not of a valid type.
+- URIError: Creates an instance representing an error that occurs when encodeURI() or decodeURI() are passed invalid parameters.
+- AggregateError: Creates an instance representing several errors wrapped in a single error when multiple errors need to be reported by an operation, for example by Promise.any().
+- InternalError: Creates an instance representing an error that occurs when an internal error in the JavaScript engine is thrown. E.g. "too much recursion".
 
 
 Performance Questions:
