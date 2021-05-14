@@ -38,10 +38,13 @@
 # Differentiate between Components and Directives in Angular.
   - **Components** break up the application into smaller parts.
   - **Directives** add behavior to an existing DOM element. 
-
 References:
 - https://stackoverflow.com/questions/32680244/directive-vs-component-in-angular
 - https://blog.angular-university.io/angular-components-and-directives-for-beginners/
+
+
+# What are directives? What are different types of directives?
+
 
 
 # What is RxJS? What are RxJS subjects, operators?
