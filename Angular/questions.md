@@ -6,6 +6,10 @@
    * JIT vs AOT
 
 
+# How Angular works?
+- [Stack overflow](https://stackoverflow.com/questions/50098245/what-exactly-triggers-main-ts-in-angular)
+- [Medium blog](https://medium.com/siam-vit/how-an-angular-app-work-behind-the-scenes-angular-flow-dcc4d1df27bd#:~:text=2.-,MAIN.,entry%20point%20of%20the%20application.&text=ts%20file%20calls%20the%20function,builder%20to%20bootstrap%20the%20app.)
+
 # Building blocks of Angular:
  * Components
  * Data Binding
@@ -210,7 +214,8 @@ Angular comes with its own dependency injection framework for resolving dependen
 So you can have your services depend on other services throughout your application.
 
 
-# How is Dependency Hierarchy formed?
+# How is Dependency Hierarchy formed?/ How dependency injection works?
+
 
 
 # What is the option to choose between inline and external template file?

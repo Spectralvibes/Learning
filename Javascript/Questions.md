@@ -2,6 +2,26 @@
 JavaScript (JS) is a lightweight interpreted or JIT-compiled programming language with first-class functions.
 
 
+# What are JavaScript data types?
+In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol (new in ECMAScript 2015).
+
+All primitives are immutable, i.e., they cannot be altered. It is important not to confuse a primitive itself with a variable assigned a primitive value. The variable may be reassigned a new value, but the existing value can not be changed in the ways that objects, arrays, and functions can be altered.
+
+Except for null and undefined, all primitive values have object equivalents that wrap around the primitive values:
+
+* `String` for the string primitive.
+* `Number` for the number primitive. (Number is a numeric data type in the double-precision 64-bit floating point format (IEEE 754).)
+* `Boolean` for the boolean primitive.
+* `Symbol` for the symbol primitive. Symbols are completely unique identifiers. Just like their primitive counterparts (Number, String, Boolean), they can be created using the factory function Symbol() which returns a Symbol. A symbol value may be used as an identifier for object properties; this is the data type's only purpose. [More...](https://medium.freecodecamp.org/how-did-i-miss-javascript-symbols-c1f1c0e1874a)
+
+The wrapper's valueOf() method returns the primitive value.
+
+```javascript
+Number(6).valueof()
+// 6
+```
+[More details...](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)
+
 
 # What are the differences between variables created using let, var or const?
 - Scope:
@@ -56,6 +76,7 @@ for (let i = 0; i < 10; i++) process.nextTick(_ => console.log(i)); does "desuga
 ```
 - [ECMA specification](https://262.ecma-international.org/6.0/#sec-createperiterationenvironment)
 - [Stackoverflow answer](https://stackoverflow.com/questions/30899612/explanation-of-let-and-block-scoping-with-for-loops)
+
 
 # What is ‘this’ keyword in JavaScript?
 >The `this` keyword refers to the function's execution context. `this` evaluates to the value of the ThisBinding of the current execution context
@@ -119,10 +140,6 @@ A closure is the combination of a function bundled together (enclosed) with refe
 [Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)
 
 
-# Function in detail
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
-
-
 # Generators:
 Generators are functions that can be exited and later re-entered. Their context (variable bindings) will be saved across re-entrances.
 - **Generator function***: The function* declaration (function keyword followed by an asterisk) defines a generator function, which returns a Generator object.
@@ -130,10 +147,6 @@ Generators are functions that can be exited and later re-entered. Their context 
 - **Generator object**: The Generator object is returned by a generator function and it conforms to both the iterable protocol and the iterator protocol.
 [Generator object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator)
 
-
-# What are async functions?
-An async function is a function declared with the async keyword, and the await keyword is permitted within them. The async and await keywords enable asynchronous, promise-based behavior to be written in a cleaner style, avoiding the need to explicitly configure promise chains.
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
 
 # Explain Function.prototype.bind()
@@ -154,13 +167,29 @@ Conceptually, for example, a strict definition of hoisting suggests that variabl
 [More on MDN](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting)
 
 
+# Function in detail
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
+
+
+# What are async functions?
+An async function is a function declared with the async keyword, and the await keyword is permitted within them. The async and await keywords enable asynchronous, promise-based behavior to be written in a cleaner style, avoiding the need to explicitly configure promise chains.
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+
+
 # function types
-- First class functions:
-A programming language is said to have First-class functions when functions in that language are treated like any other variable. For example, in such a language, a function can be passed as an argument to other functions, can be returned by another function and can be assigned as a value to a variable.
-- Higher order function:
-A function that returns a function is called a Higher-Order Function.
-- Pure functions
-The function return values are identical for identical arguments.
+- First class functions: A programming language is said to have First-class functions when functions in that language are treated like any other variable. For example, in such a language, a function can be passed as an argument to other functions, can be returned by another function and can be assigned as a value to a variable.
+- Higher order function: A function that returns a function is called a Higher-Order Function.
+- Pure functions: The function return values are identical for identical arguments.
+
+
+# function currying:
+
+
+
+# Callback function
+- A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+- Where callbacks really shine are in asynchronous functions, where one function has to wait for another function (like waiting for a file to load).
+- **Callback hell**: Callback hell is when we nest multiple asynchronous operations one after the other. By nesting callbacks in such a way, we easily end up with error-prone, hard to read, and hard to maintain code.
 
 
 # Nested functions and closures
@@ -338,6 +367,7 @@ console.log(person.lang); // en
 - The key contrast: lexical scope is write-time, whereas dynamic scope (and `this`!) are runtime. Lexical scope cares where a function was declared, but dynamic scope cares where a function was called from.
 - Finally: `this` cares how a function was called, which shows how closely related the `this` mechanism is to the idea of dynamic scoping.
 
+
 # Global, local block scope
 - The Global scope
   A variable exists inside or outside a block. If a variable is declared outside all functions or curly braces ({}), it exists in the global scope. The global variables can be accessed by any line of code in the program, including inside blocks.
@@ -366,14 +396,49 @@ An IIFE (Immediately Invoked Function Expression) is a JavaScript function that 
 # Interface
 
 
-# Callback function
-- A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
-- Where callbacks really shine are in asynchronous functions, where one function has to wait for another function (like waiting for a file to load).
-- **Callback hell**: Callback hell is when we nest multiple asynchronous operations one after the other. By nesting callbacks in such a way, we easily end up with error-prone, hard to read, and hard to maintain code.
-
 # Exceptions & error handling
-
-[More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+The try statement consists of a try-block, which contains one or more statements. {} must always be used, even for single statements. At least one catch-block, or a finally-block, must be present. This gives us three forms for the try statement:
+- try...catch
+- try...finally
+- try...catch...finally
+```javascript
+try {
+  try_statements // The statements to be executed.
+} catch (e) { // e: An optional identifier to hold an exception object for the associated catch-block.
+  if (e instanceof TypeError) {
+    // statements to handle TypeError exceptions
+  } else if (e instanceof RangeError) {
+    // statements to handle RangeError exceptions
+  } else if (e instanceof EvalError) {
+    // statements to handle EvalError exceptions
+  } else {
+    // statements to handle any unspecified exceptions
+  }
+} finally {
+  finally_statements // Statements that are executed after the try statement completes. These statements execute regardless of whether an exception was thrown or caught.
+}
+```
+- throw
+  - The 'throw' statement throws a user-defined exception. Execution of the current function will stop (the statements after throw won't be executed), and control will be passed to the first catch block in the call stack. If no catch block exists among caller functions, the program will terminate.
+  - You can use throw to rethrow an exception after you catch it
+```javascript
+throw 'Error2'; // generates an exception with a string value
+throw 42;       // generates an exception with the value 42
+throw true;     // generates an exception with the value true
+throw new Error('Required');  // generates an error object with the message of Required
+```
+- Error() constructor syntax:
+```javascript
+new Error()
+new Error(message)
+new Error(message, fileName)
+new Error(message, fileName, lineNumber)
+```
+Read more on MDN:
+- [Error object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+- [List of Errors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors)
+- [try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
+- [throw](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw)
 
 # What are falsy values in javascript?
 The following values evaluate to false (also known as Falsy values):
@@ -510,26 +575,6 @@ A mixin is a class (interface, in WebAPI spec terms) in which some or all of its
 An object can inherit the properties and values from unrelated parent objects. JavaScript does not support multiple inheritance.
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model#no_multiple_inheritance)
 
-
-# What are JavaScript data types?
-In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol (new in ECMAScript 2015).
-
-All primitives are immutable, i.e., they cannot be altered. It is important not to confuse a primitive itself with a variable assigned a primitive value. The variable may be reassigned a new value, but the existing value can not be changed in the ways that objects, arrays, and functions can be altered.
-
-Except for null and undefined, all primitive values have object equivalents that wrap around the primitive values:
-
-* `String` for the string primitive.
-* `Number` for the number primitive. (Number is a numeric data type in the double-precision 64-bit floating point format (IEEE 754).)
-* `Boolean` for the boolean primitive.
-* `Symbol` for the symbol primitive. Symbols are completely unique identifiers. Just like their primitive counterparts (Number, String, Boolean), they can be created using the factory function Symbol() which returns a Symbol. A symbol value may be used as an identifier for object properties; this is the data type's only purpose. [More...](https://medium.freecodecamp.org/how-did-i-miss-javascript-symbols-c1f1c0e1874a)
-
-The wrapper's valueOf() method returns the primitive value.
-
-```javascript
-Number(6).valueof()
-// 6
-```
-[More details...](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)
 
 # 78.	Temporal dead zone
 
