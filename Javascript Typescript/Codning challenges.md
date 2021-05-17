@@ -33,8 +33,39 @@ console.log(uniques);
 ```
 
 
-# How to write a recursive function?
+# Output?
+```javascript
+var x = 23;
 
+(function(){
+var x = 43;
+(function random(){
+x++;
+console.log(x);
+var x = 21;
+})();
+})();
+```
+`NaN` // Due to hoisting within IIFE
+
+
+# Output?
+```javascript
+var obj1 = {
+  valueOfThis: function(){
+    return this;
+  }
+}
+
+var obj2 = {
+  valueOfThis: ()=>{
+    return this;
+  }
+}
+```
+
+
+# How to write a recursive function?
 
 
 # What is the value of foo?
@@ -119,3 +150,13 @@ arr.forEach(element => {
 [Different ways](https://codeburst.io/how-to-flatten-a-nested-javascript-array-628e01b85512)
 [Array.prototype.flat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
 [Array.prototype.flat() polyfill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)(https://github.com/behnammodi/polyfill/blob/master/array.polyfill.js)
+
+
+# Output?
+```javascript
+a = b;
+b = 5;
+// 
+let a = b;
+var b = 5;
+```

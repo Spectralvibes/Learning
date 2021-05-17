@@ -78,6 +78,10 @@ const observable = new Observable(observer => {
 ```
 
 
+# Subject vs BehaviourSubject
+[Read](https://devsuhas.com/2019/12/09/difference-between-subject-and-behaviour-subject-in-rxjs/)
+
+
 # What is viewChild and viewChildren?
 
 
@@ -179,7 +183,12 @@ To put simply, ViewEncapsulation determines whether the styles defined in a part
 > [Know more...](https://dzone.com/articles/what-is-typescript-and-why-use-it#:~:text=TypeScript%20simplifies%20JavaScript%20code%2C%20making%20it%20easier%20to%20read%20and%20debug.&text=TypeScript%20provides%20highly%20productive%20development,huge%20improvement%20over%20plain%20JavaScript.)
 
 
-# Angular Authentication and Authorization
+# What is folding in Angular?
+
+
+# Angular Authentication and Authorization? 
+- How to implement Authentication and authorization?
+
 > [Know more...](https://www.tutorialspoint.com/angular8/angular8_authentication_and_authorization.htm)
 
 

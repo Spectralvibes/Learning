@@ -2,7 +2,19 @@
 
 # What is the difference between classes and IDs in CSS?
 # What's the difference between "resetting" and "normalizing" CSS? Which would you choose, and why?
+- Normalize. css is mainly a set of styles, based on what its author thought would look good, and make it look consistent across browsers. - - Reset basically strips styling from elements so you have more control over the styling of everything.
+
+
 # Describe Floats and how they work.
+The float property is used for positioning and formatting content e.g. let an image float left to the text in a container.
+
+The float property can have one of the following values:
+
+-left - The element floats to the left of its container
+right - The element floats to the right of its container
+none - The element does not float (will be displayed just where it occurs in the text). This is default
+inherit - The element inherits the float value of its parent
+
 # Describe z-index and how stacking context is formed.
 # Describe BFC(Block Formatting Context) and how it works.
 # What are the various clearing techniques and which is appropriate for what context?

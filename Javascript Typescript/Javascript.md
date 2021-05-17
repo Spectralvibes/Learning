@@ -182,7 +182,7 @@ An async function is a function declared with the async keyword, and the await k
 - Pure functions: The function return values are identical for identical arguments.
 
 
-# function currying:
+# function currying, partial function, function composition: curring vs composition?
 
 
 # Functional programming
@@ -256,6 +256,25 @@ new Promise((resolve, reject) => {
 });
 ```
 [More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
+
+# Spread operator vs rest argument
+When using spread, you are expanding a single variable into more:
+```javascript
+var abc = ['a', 'b', 'c'];
+var def = ['d', 'e', 'f'];
+var alpha = [ ...abc, ...def ];
+console.log(alpha)// alpha == ['a', 'b', 'c', 'd', 'e', 'f'];
+```
+When using rest arguments, you are collapsing all remaining arguments of a function into one array:
+```javascript
+function sum( first, ...others ) {
+    for ( var i = 0; i < others.length; i++ )
+        first += others[i];
+    return first;
+}
+console.log(sum(1,2,3,4)) // sum(1, 2, 3, 4) == 10;
+```
 
 
 # What are ES6 features?
@@ -456,6 +475,7 @@ Read more on MDN:
 - [try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
 - [throw](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw)
 
+
 # What are falsy values in javascript?
 The following values evaluate to false (also known as Falsy values):
 - false
@@ -465,9 +485,9 @@ The following values evaluate to false (also known as Falsy values):
 - NaN
 - the empty string ("")
 
+
 # 90. Events:
 # 91. Async programming
-# 92. 
 # 93. Promises
 # 96. Ajax & JQuery
 # 97. valueof and unboxing
@@ -493,7 +513,34 @@ The following values evaluate to false (also known as Falsy values):
 # 60.	Data type conversion/Coersion
 # 61.Control flow statements and flow patterns
 # 62.Expressions and Operators
-# 63.Destructuring
+
+# memoization
+
+
+# Debouncing and Throttling in JavaScript
+- **Throttling** will delay executing a function. It will reduce the notifications of an event that fires multiple times.
+- **Debouncing** will bunch a series of sequential calls to a function into a single call to that function. It ensures that one notification is made for an event that fires multiple times.
+[Read more](https://davidwalsh.name/function-debounce)
+
+
+# Destructuring? How to do destructuring for Objects?
+The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
+```javascript
+// Array destructuring
+
+// Object destructuring
+const hero = {
+  name: 'Batman',
+  realName: 'Bruce Wayne'
+};
+
+const { name, realName } = hero;
+
+name;     // => 'Batman',
+realName; // => 'Bruce Wayne'
+```
+
+
 # 67.	Pass by value n pass by reference
 # 69.	Arrow notation
 # 71. Scope:
@@ -585,19 +632,67 @@ https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
 # What's the difference between a variable that is: null, undefined or undeclared?
 
 
+# What is garbage collection in javascript?
+
+
 
 # Mixin
 A mixin is a class (interface, in WebAPI spec terms) in which some or all of its methods and/or properties are unimplemented, requiring that another class or interface provide the missing implementations. The new class or interface then includes both the properties and methods from the mixin as well as those it defines itself. All of the methods and properties are used exactly the same regardless of whether they're implemented in the mixin or the interface or class that implements the mixin.
 
 
+
 # Multiple inheritance
 An object can inherit the properties and values from unrelated parent objects. JavaScript does not support multiple inheritance.
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model#no_multiple_inheritance)
+> [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model#no_multiple_inheritance)
+Multiple inheritance can be achieved in ECMAScript 6 by using Proxy objects:
+```javascript
+function getDesc (obj, prop) {
+  var desc = Object.getOwnPropertyDescriptor(obj, prop);
+  return desc || (obj=Object.getPrototypeOf(obj) ? getDesc(obj, prop) : void 0);
+}
+function multiInherit (...protos) {
+  return Object.create(new Proxy(Object.create(null), {
+    has: (target, prop) => protos.some(obj => prop in obj),
+    get (target, prop, receiver) {
+      var obj = protos.find(obj => prop in obj);
+      return obj ? Reflect.get(obj, prop, receiver) : void 0;
+    },
+    set (target, prop, value, receiver) {
+      var obj = protos.find(obj => prop in obj);
+      return Reflect.set(obj || Object.create(null), prop, value, receiver);
+    },
+    *enumerate (target) { yield* this.ownKeys(target); },
+    ownKeys(target) {
+      var hash = Object.create(null);
+      for(var obj of protos) for(var p in obj) if(!hash[p]) hash[p] = true;
+      return Object.getOwnPropertyNames(hash);
+    },
+    getOwnPropertyDescriptor(target, prop) {
+      var obj = protos.find(obj => prop in obj);
+      var desc = obj ? getDesc(obj, prop) : void 0;
+      if(desc) desc.configurable = true;
+      return desc;
+    },
+    preventExtensions: (target) => false,
+    defineProperty: (target, prop, desc) => false,
+  }));
+}
+```
+[More on stackoverflow](https://stackoverflow.com/questions/9163341/multiple-inheritance-prototypes-in-javascript)
 
 
-# 78.	Temporal dead zone
+# Temporal dead zone
+`let` and `const` are hoisted (like `var`, `class` and `function`), but there is a period between entering scope and being declared where they cannot be accessed. This period is the **temporal dead zone (TDZ)**.
+```javascript
+let foo = () => bar; 
+let bar = 'bar'; 
+foo();
+```
+[ECMA-262 Standard](https://262.ecma-international.org/9.0/#sec-let-and-const-declarations): let and const declarations define variables that are scoped to the running execution context's LexicalEnvironment. The variables are created when their containing Lexical Environment is instantiated but may not be accessed in any way until the variable's LexicalBinding is evaluated.
+
 
 # What's a typical use case for anonymous functions?
+Since Anonymous Functions are function expressions rather than the regular function declaration which are statements. Function expressions are more flexible. We can assign functions to variables, object properties, pass them as arguments to other functions, and even write a simple one line code enclosed in an anonymous functions.
 - Function expressions
 - IIFE
 - Callback functions
