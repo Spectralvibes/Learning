@@ -185,6 +185,10 @@ An async function is a function declared with the async keyword, and the await k
 # function currying:
 
 
+# Functional programming
+
+[Medium blog](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0)
+
 
 # Callback function
 - A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
@@ -396,6 +400,18 @@ An IIFE (Immediately Invoked Function Expression) is a JavaScript function that 
 # Interface
 
 
+# *Async & await
+
+
+# How many ways we can create object
+
+
+# How can we achieve multithreading in JavaScript?
+
+
+# Angular expression vs Javascript expression
+
+
 # Exceptions & error handling
 The try statement consists of a try-block, which contains one or more statements. {} must always be used, even for single statements. At least one catch-block, or a finally-block, must be present. This gives us three forms for the try statement:
 - try...catch
@@ -459,6 +475,8 @@ The following values evaluate to false (also known as Falsy values):
 # 99. JavaScript memory management
 # 100. Applications caching
 # 101. Service worker
+# What are web workers?
+# Cookies?
 
 # Identifiers
 # 47.	Literals
@@ -552,6 +570,7 @@ https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
 # 17.Explain Ajax in as much detail as possible.
 # 18.Explain how JSONP works (and how it's not really Ajax).
 # 19.Have you ever used JavaScript templating?
+# Caching and storages
 
 
 # 12.Difference between: function Person(){}, var person = Person(), and var person = new Person()?

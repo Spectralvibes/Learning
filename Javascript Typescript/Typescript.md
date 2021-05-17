@@ -1,3 +1,10 @@
+
+# Javascript vs Typescript
+
+
+
+
+# placeholder
 ```javascript
 type PokemonVariation = 'water' | 'fire' | 'grass' | 'ice' | 'bug' | 'ground' | 'electric' | 'flying' | 'psychic' | 'dark' | 'ghost';
 

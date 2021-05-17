@@ -1,6 +1,9 @@
 # Angular versions?
 
 
+# Angularjs vs Angular
+
+
 # Compilation:
    * Compiler vs Transpiler vs Interpreter
    * JIT vs AOT
@@ -75,6 +78,9 @@ const observable = new Observable(observer => {
 ```
 
 
+# What is viewChild and viewChildren?
+
+
 # What is the difference between promise and observable?
 - Observables are Declarative: Computation does not start until subscription; so that they can be run whenever you need the result.
 - Promise Execute immediately on creation
@@ -97,6 +103,11 @@ The RxJS library also provides below utility functions for creating and working 
 - filter() : Used for filtering streams.
 - concat() : Used to concatenate multiple strings.
 - merge(): Used to recursively descend into object properties in the source copy, while forming a deep copy of the same.
+
+
+# What are web workers?
+Web workers enables JavaScript application to run the CPU-intensive tasks in the background so that the application main thread concentrate on the smooth operation of UI. Angular provides support for including Web workers in the application.
+
 
 
 # What are components?
@@ -186,6 +197,9 @@ With the usage of AsyncPipe, the promise or observable can be directly used in a
 - **Purpose**: The AsyncPipe subscribes to an observable or promise and returns the latest value it has emitted. When a new value is emitted, the pipe marks the component to be checked for changes.
 
 
+# Angular design pattern
+
+
 # What is metadata?
 Metadata is used to decorate a class so that it can configure the expected behavior of the class. The metadata is represented by decorators.
 - Class decorators, e.g. @Component and @NgModule
@@ -194,7 +208,10 @@ Metadata is used to decorate a class so that it can configure the expected behav
 - Parameter decorators Used for parameters inside class constructors, e.g. @Inject
 
 
-# What is Angular CLI?
+# Decorators,  Annotations
+
+
+# What is Angular CLI? CLI commands?
 Angular CLI(Command Line Interface) is a command line interface to scaffold and build angular apps using nodejs style (commonJs) modules.
 
 
@@ -206,6 +223,21 @@ Angular CLI(Command Line Interface) is a command line interface to scaffold and 
 
 # What is a service?
 A service is used when a common functionality needs to be provided to various modules. Services allow for greater separation of concerns for your application and better modularity by allowing you to extract common functionality out of components.
+- @Injectable decorator converts a plain Typescript class into Angular service:
+```javascript
+import { Injectable } from '@angular/core'; 
+@Injectable({ 
+   providedIn: 'root',  // providedIn?: Type<any> | 'root' | 'platform' | 'any' | null
+})
+export class DebugService { 
+   constructor() { } 
+}
+```
+- providedIn: Determines which injectors will provide the injectable, by either associating it with an @NgModule or other InjectorType, or by specifying that this injectable should be provided in one of the following injectors:
+	- 'root' : The application-level injector in most apps.
+	- 'platform' : A special singleton platform injector shared by all applications on the page.
+	- 'any' : Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.
+- [Dependency Injection in Action](https://angular.io/guide/dependency-injection-in-action)
 
 
 # What is dependency injection in Angular?
@@ -365,6 +397,14 @@ Normally an observer object can define any combination of next, error and comple
 - Angular Elements hosts an Angular component, providing a bridge between the data and logic defined in the component and standard DOM APIs, thus, providing a way to use Angular components in non-Angular environments.
 
 
+# What is progressive web app PWA?
+Progressive web apps (PWA) are normal web application with few enhancements and behaves like a native application. PWA apps does not depends on network to work. PWA caches the application and renders it from local cache. It regularly checks the live version of the application and then caches the latest version in the background.
+## Service worker
+At its simplest, a service worker is a script that runs in the web browser and manages caching for an application.
+
+Service workers function as a network proxy. They intercept all outgoing HTTP requests made by the application and can choose how to respond to them. For example, they can query a local cache and deliver a cached response if one is available. Proxying isn't limited to requests made through programmatic APIs, such as fetch; it also includes resources referenced in HTML and even the initial request to index.html. Service worker-based caching is thus completely programmable and doesn't rely on server-specified caching headers.
+
+
 # What is the browser support of Angular Elements?
 
 
@@ -485,7 +525,15 @@ Normally an observer object can define any combination of next, error and comple
 # Explain the Template Driven Forms.
 
 
+# What is ivy compiler
+
+
 # Explain Model Driven Forms or Reactive Forms.
+Reactive forms concepts:
+- FormControl − Define basic functionality of individual form control
+- FormGroup − Used to aggregate the values of collection form control
+- FormArray − Used to aggregate the values of form control into an array
+- ControlValueAccessor − Acts as an interface between Forms API to HTML DOM elements.
 
 
 # What's the difference between NgForm, FormGroup, and FormControl?
@@ -684,6 +732,23 @@ myObservable.subscribe(myObserver);
 ```
 
 
+# Internationalization (i18n)
+
+
+# Accessibility
+Accessibility support is one of the important feature of every UI based application. Accessibility is a way of designing the application so that, it is accessible for those having certain disabilities as well. Let us learn the support provided by Angular to develop application with good accessibility.
+- While using attribute binding, use attr. prefix for ARIA attributes.
+- Use Angular material component for Accessibility. Some of the useful components are LiveAnnouncer and cdkTrapFocu.
+- Use native HTML elements wherever possible because native HTML element provides maximum accessibility features. When creating a component, select native html element matching your use case instead of redeveloping the native functionality.
+- Use NavigationEnd to track and control the focus of the application as it greatly helps in accessibility.
+
+
+# Server Side Rendering
+Server side Rendering (SSR) is a modern technique to convert a Single Page Application (SPA) running in the browser into a server based application. Usually, in SPA, the server returns a simple index.html file with the reference to the JavaScript based SPA app. The SPA app take over from there, configure the entire application, process the request and then send the final response.
+
+But in SSR supported application, the server as well do all the necessary configuration and then send the final response to the browser. The browser renders the response and start the SPA app. SPA app takeover from there and further request are diverted to SPA app. The flow of SPA and SSR is as shown in below diagram.
+
+
 # What is an observer?
 Observer is an interface for a consumer of push-based notifications delivered by an Observable. It has below structure,
 ```javascript
@@ -785,3 +850,5 @@ const subscription = mouseMoves.subscribe((e: MouseEvent) => {
 
 # Differentiate between ng-Class and ng-Style.
 In ng-Class, loading of CSS class is possible; whereas, in ng-Style we can set the CSS style. 
+
+

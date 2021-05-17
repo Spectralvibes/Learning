@@ -32,7 +32,7 @@ An HTTP cookie (also called web cookie, Internet cookie, browser cookie, or simp
 
 
 # What is canvas in HTML5?
-- The HTML <canvas> element provides an empty graphic zone on which specific JavaScript APIs can draw (such as Canvas 2D or WebGL). 
+- The HTML `<canvas>` element provides an empty graphic zone on which specific JavaScript APIs can draw (such as Canvas 2D or WebGL). 
 [More...](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_usage)
 ________________________________________________________________________________________________________________________________________
 
@@ -80,10 +80,10 @@ The Cache interface provides a storage mechanism for Request / Response object p
 
 # What are semantic tags in HTML5?	
 Semantic tags allowing you to describe more precisely what your content is.
-- **Sections and outlines in HTML5**: A look at the new outlining and sectioning elements in HTML5: <section>, <article>, <nav>, <header>, <footer> and <aside>.
-- **New semantic elements**: Beside sections, media and forms elements, there are numerous new elements, like <mark>, <figure>, <figcaption>, <data>, <time>, <output>, <progress>, or <meter> and <main> 
-- ** Using HTML5 audio and video **: The <audio> and <video> elements embed and allow the manipulation of new multimedia content.
->[More...](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- **Sections and outlines in HTML5**: A look at the new outlining and sectioning elements in HTML5: `<section>`, `<article>`, `<nav>`, `<header>`, `<footer>` and `<aside>`.
+- **New semantic elements**: Beside sections, media and forms elements, there are numerous new elements, like `<mark>`, `<figure>`, `<figcaption>`, `<data>`, `<time>`, `<output>`, `<progress>`, or `<meter>` and `<main>` 
+- ** Using HTML5 audio and video **: The `<audio>` and `<video>` elements embed and allow the manipulation of new multimedia content.
+> [More...](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 
 
 # What's the difference between an "attribute" and a "property"?
@@ -92,7 +92,7 @@ Semantic tags allowing you to describe more precisely what your content is.
 # What are custom attributes in HTML5?
 - The data-* attributes is used to store custom data private to the page or application.
 - The data-* attributes gives us the ability to embed custom data attributes on all HTML elements.
-- The stored (custom) data can then be used in the page's JavaScript to create a more engaging user experience (without any Ajax 	calls or server-side database queries).
+- The stored (custom) data can then be used in the page's JavaScript to create a more engaging user experience (without any Ajax calls or server-side database queries).
 - The data-* attributes consist of two parts:
 	- The attribute name should not contain any uppercase letters, and must be at least one character long after the prefix "data-"
 	- The attribute value can be any string
@@ -107,21 +107,17 @@ The WebSocket API is an advanced technology that makes it possible to open a two
 
 
 # What are media elements in HTML5?
-[`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio "The HTML '<audio>' element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the '<source>' element: the browser will choose the most suitable one. It can also be the destination for streamed media, using a MediaStream.")
+- [`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
+The  `<audio>`  element is used to play audio in a Web context. These can be used invisibly as a destination for more complex media, or with visible controls for user-controlled playback of audio files. Accessible from JavaScript as  HTMLAudioElement objects.
 
-The  `<audio>`  element is used to play audio in a Web context. These can be used invisibly as a destination for more complex media, or with visible controls for user-controlled playback of audio files. Accessible from JavaScript as  [`HTMLAudioElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement "The HTMLAudioElement interface provides access to the properties of <audio> elements, as well as methods to manipulate them. It derives from the HTMLMediaElement interface.")  objects.
+- [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
+The  `<video>`  element is an endpoint for video content in a Web context. It can be used to simply present video files, or as a destination for streamed video content.  `<video>`  can also be used as a way to link media APIs with other HTML and DOM technologies, including  `<canvas>` (for frame grabbing and manipulation), for example. Accessible from JavaScript as HTMLVideoElement objects.
 
-[`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video "The HTML Video element (<video>) embeds a media player which supports video playback into the document.")
+- [`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track")
+The HTML  `<track>`  element can be placed within an  `<audio>`  or  `<video>` element to provide a reference to a  WebVTT format subtitle or caption track to be used when playing the media. Accessible from JavaScript as HTMLTrackElement objects.
 
-The  `<video>`  element is an endpoint for video content in a Web context. It can be used to simply present video files, or as a destination for streamed video content.  `<video>`  can also be used as a way to link media APIs with other HTML and DOM technologies, including  [`<canvas>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas "Use the HTML <canvas> element with either the canvas scripting API or the WebGL API to draw graphics and animations.")  (for frame grabbing and manipulation), for example. Accessible from JavaScript as  [`HTMLVideoElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement "The HTMLVideoElement interface provides special properties and methods for manipulating video objects. It also inherits properties and methods of HTMLMediaElement and HTMLElement.")  objects.
-
-[`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track "The HTML <track> element is used as a child of the media elements <audio> and <video>. It lets you specify timed text tracks (or time-based data), for example to automatically handle subtitles. The tracks are formatted in WebVTT format (.vtt files) — Web Video Text Tracks or Timed Text Markup Language (TTML).")
-
-The HTML  `<track>`  element can be placed within an  [`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio "The HTML <audio> element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the <source> element: the browser will choose the most suitable one. It can also be the destination for streamed media, using a MediaStream.")  or  [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video "The HTML Video element (<video>) embeds a media player which supports video playback into the document.")  element to provide a reference to a  [WebVTT](https://developer.mozilla.org/en-US/docs/Web/API/Web_Video_Text_Tracks_Format)  format subtitle or caption track to be used when playing the media. Accessible from JavaScript as  [`HTMLTrackElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLTrackElement "The HTMLTrackElement")  objects.
-
-[`<source>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source "The HTML <source> element specifies multiple media resources for the <picture>, the <audio> element, or the <video> element.")
-
-The HTML  `<source>`  element is used within an  [`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio "The HTML <audio> element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the <source> element: the browser will choose the most suitable one. It can also be the destination for streamed media, using a MediaStream.")  or  [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video "The HTML Video element (<video>) embeds a media player which supports video playback into the document.")  element to specify source media to present. Multiple sources can be used to provide the media in different formats, sizes, or resolutions. Accessible from JavaScript as  [`HTMLSourceElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLSourceElement "The HTMLSourceElement interface provides special properties (beyond the regular HTMLElement object interface it also has available to it by inheritance) for manipulating <source> elements.")  objects.
+- [`<source>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source)
+The HTML  `<source>`  element is used within an  `<audio>`  or  `<video>`  element to specify source media to present. Multiple sources can be used to provide the media in different formats, sizes, or resolutions. Accessible from JavaScript as  HTMLSourceElement objects.
 
 
 # What is doctype (different types of Doctypes)?
@@ -163,33 +159,29 @@ This document type includes all HTML elements in the transitional DTD as well as
 #  What is metadata tag?
 
 
-
-# What Would Happen If The HTML Document Does Not Contain <!DOCTYPE>?
+# What Would Happen If The HTML Document Does Not Contain `<!DOCTYPE>`?
 - It instructs the Web Browser about the version of HTML used for creating the Web page.
-- If the developer misses declaring the DOCTYPE information in the code, then new features and tags provided by HTML5, like <article>, <footer>, and <header> will not be supported. Additionally, the Browser may automatically go into Quirks or Strict Mode.
-
+- If the developer misses declaring the DOCTYPE information in the code, then new features and tags provided by HTML5, like `<article>`, `<footer>`, and `<header>` will not be supported. Additionally, the Browser may automatically go into Quirks or Strict Mode.
 
 
 # What is iframe tag?
-The HTML Inline Frame element (<iframe>) represents a nested browsing context, embedding another HTML page into the current one.
-
-Each embedded browsing context has its own session history and document. The browsing context that embeds the others is called the parent browsing context. The topmost browsing context — the one with no parent — is usually the browser window, represented by the Window object.
-	
+- The HTML Inline Frame element `<iframe>` represents a nested browsing context, embedding another HTML page into the current one.
+- Each embedded browsing context has its own session history and document. The browsing context that embeds the others is called the parent browsing context. The topmost browsing context — the one with no parent — is usually the browser window, represented by the Window object.	
 > [More...](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)
 
 
 # What are List elements in HTML5
 HTML offers web authors three ways for specifying lists of information. All lists must contain one or more list elements. Lists may contain:
-`<ul>`: An unordered list. This will list items using plain bullets.
-`<ol>`: An ordered list. This will use different schemes of numbers to list your items.
-`<dl>`: A definition list. This arranges your items in the same way as they are arranged in a dictionary.
+- `<ul>`: An unordered list. This will list items using plain bullets.
+- `<ol>`: An ordered list. This will use different schemes of numbers to list your items.
+- `<dl>`: A definition list. This arranges your items in the same way as they are arranged in a dictionary.
 
 
 # What are the features provided by HTML5?
 HTML5 introduces a number of new elements and attributes that help in building an attractive webSite, that we see nowadays.
 It supports following new features.
-1. New Semantic Elements – These are like <header>, <footer>, and <section>.
-2. Forms 2.0 – It contains improvements to HTML web forms. It has introduced new attributes for the <input> tag.
+1. New Semantic Elements – These are like `<header>`, `<footer>`, and `<section>`.
+2. Forms 2.0 – It contains improvements to HTML web forms. It has introduced new attributes for the `<input>` tag.
 3. Persistent Local Storage – With HTML5, it is possible to achieve this, without resorting to third-party plugins.
 4. WebSocket – It facilitates setting up a bidirectional communication for web applications.
 5. Server-Sent Events(SSE) – These events got introduced in HTML5. The direction of the flow of the execution of these events is from the server to the Web Browser.
@@ -201,11 +193,8 @@ It supports following new features.
 
 
 # What are new form elements in HTML5?
-`<datalist>`
-Specifies a list of pre-defined options for input controls
-
-`<output>`
-Defines the result of a calculation
+- `<datalist>`: Specifies a list of pre-defined options for input controls
+- `<output>`: Defines the result of a calculation
 
 
 # Which elements of HTML 4.01 are no more a part of HTML5?
@@ -246,7 +235,7 @@ Web Workers makes it possible to run a script operation in a background thread s
 # What's the difference between full standards mode, almost standards mode and quirks mode?
 
 
-# Describe the difference between <script>, <script async> and <script defer>.
+# Describe the difference between `<script>`, `<script async>` and `<script defer>`.
 
 
 #  What is progressive rendering?
