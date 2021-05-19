@@ -160,3 +160,15 @@ b = 5;
 let a = b;
 var b = 5;
 ```
+
+# Insert 4 number in middle of nested array:
+```javascript
+arr = [[1,2],[3,4]]; // Expected [[1,4,2],[3,4,4]]
+// manual
+let newArr = arr.map(e=>{
+    return e = [e[0],4,e[1]]
+})
+// splice
+arr[0].splice(1,0,4);
+arr[1].splice(1,0,4)
+```

@@ -186,8 +186,61 @@ To put simply, ViewEncapsulation determines whether the styles defined in a part
 # What is folding in Angular?
 
 
-# Angular Authentication and Authorization? 
-- How to implement Authentication and authorization?
+# Angular Authentication and Authorization? How to implement Authentication and authorization?
+[Using JWT token](https://jasonwatmore.com/post/2019/06/22/angular-8-jwt-authentication-example-tutorial)
+- Get and store jwt token
+```javascript
+@Injectable({ providedIn: 'root' })
+export class AuthenticationService {
+    private currentUserSubject: BehaviorSubject<User>;
+    public currentUser: Observable<User>;
+
+    constructor(private http: HttpClient) {
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
+
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+    }
+
+    login(username: string, password: string) {
+        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
+            .pipe(map(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.currentUserSubject.next(user);
+                return user;
+            }));
+    }
+
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+    }
+}
+```
+	- Send jwt token with every request
+```javascript
+@Injectable()
+export class JwtInterceptor implements HttpInterceptor {
+    constructor(private authenticationService: AuthenticationService) { }
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // add authorization header with jwt token if available
+        let currentUser = this.authenticationService.currentUserValue;
+        if (currentUser && currentUser.token) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${currentUser.token}`
+                }
+            });
+        }
+        return next.handle(request);
+    }
+}
+```
+
 
 > [Know more...](https://www.tutorialspoint.com/angular8/angular8_authentication_and_authorization.htm)
 

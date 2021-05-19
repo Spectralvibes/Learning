@@ -302,6 +302,41 @@ ES6 includes the following new features:
 - tail calls
 
 
+# What is fetch api?
+The Fetch API provides a JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses. It also provides a global fetch() method that provides an easy, logical way to fetch resources asynchronously across the network.
+```javascript
+fetch('http://example.com/movies.json')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+- With request options
+```javascript
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+postData('https://example.com/answer', { answer: 42 })
+  .then(data => {
+    console.log(data); // JSON data parsed by `data.json()` call
+  });
+```
+
+
 # Event loop:
 [Read on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop)
 
@@ -585,35 +620,56 @@ Network Questions:
 # Transfer-Encoding
 # ETag
 # X-Frame-Options
+[More on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options)
+
 # What are HTTP methods? List all HTTP methods that you know, and explain them.
 
-# References:
-# 1. Primitives: 
-https://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
-# 2. Memory Heap or stack: 
-https://hashnode.com/post/does-javascript-use-stack-or-heap-for-memory-allocation-or-both-cj5jl90xl01nh1twuv8ug0bjk
-# 3. Stack size:
-https://glebbahmutov.com/blog/javascript-stack-size/
-# 4. Memory management:
-https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec
-# 5. Performance tuning:
-https://medium.com/@spp020/44-quick-tips-to-fine-tune-angular-performance-9f5768f5d945
-# 6. Code review:
-https://www.evoketechnologies.com/blog/code-review-checklist-perform-effective-code-reviews/
-https://gist.github.com/blakewest/10049924
-# 7. Interview questions:
-https://www.code-sample.com/2018/04/angular-7-interview-questions-and.html?m=1
-# 8. Time saving tips: 
-https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
 
 # Why is it, in general, a good idea to leave the global scope of a website as-is and never touch it?
+Form most languages, global variables are considered a “bad thing”. ... It's probable that you'll encounter global variable name clashes. Since there's only one namespace you're more likely to double up on a variable name.
 
 
+# Why is it called a Ternary expression, what does the word "Ternary" indicate?
+The name ternary refers to the fact that the operator takes three operands. The condition is a boolean expression that evaluates to either true or false . ... The ternary operator is an expression (like price + 20 for example), which means that once executed, it has a value.
 
-# 26.Why is it called a Ternary expression, what does the word "Ternary" indicate?
-# 23.Why is extending built-in JavaScript objects not a good idea?
-# 15.When would you use document.write()?
-# 16.What's the difference between feature detection, feature inference, and using the UA string?
+
+# Why is extending built-in JavaScript objects not a good idea?
+Modifying the behaviour of current built-in JS objects is not a good practice as it breaks its default functionality and it will break your code using that specific built-in JS object method or property.
+
+
+# When would you use document.write()?
+The write() method writes HTML expressions or JavaScript code to a document. The write() method is mostly used for testing: If it is used after an HTML document is fully loaded, it will delete all existing HTML.
+
+
+# What's the difference between feature detection, feature inference, and using the UA string?
+Feature detection involves working out whether a browser supports a certain block of code, and running different code depending on whether it does (or doesn't), so that the browser can always provide a working experience rather than crashing/erroring in some browsers.
+```javascript
+if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    // show the location on a map, perhaps using the Google Maps API
+  });
+} else {
+  // Give the user a choice of static maps instead perhaps
+}
+```
+- Feature Inference
+Feature inference is similar to feature detection, but instead uses another function because it assumes it will also exist:
+```javascript
+if (document.getElementsByTagName) {
+  element = document.getElementById(id);
+}
+This is not really recommended. Feature detection is more foolproof.
+```
+- UA string
+Checking the UA string is an old practice and should not be used anymore. You keep changing the UA checks and never benefit from newly implemented features, e.g.:
+```javascript
+if (navigator.userAgent.indexOf("MSIE 7") > -1){
+    //do something
+}
+```
+[More on feature detection on MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Feature_detection)
+
+
 # 17.Explain Ajax in as much detail as possible.
 # 18.Explain how JSONP works (and how it's not really Ajax).
 # 19.Have you ever used JavaScript templating?
@@ -623,7 +679,9 @@ https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
 # 12.Difference between: function Person(){}, var person = Person(), and var person = new Person()?
 
 
-# 11.What's the difference between host objects and native objects?
+# What's the difference between host objects and native objects?
+- **Native objects** are objects that adhere to the specs, i.e. "standard objects". 
+- **Host objects** are objects that the browser (or other runtime environment like Node) provides.
 
 
 # What do you think of AMD vs CommonJS?
@@ -697,3 +755,23 @@ Since Anonymous Functions are function expressions rather than the regular funct
 - IIFE
 - Callback functions
 - Returning function from another function
+
+
+# References:
+# 1. Primitives: 
+https://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
+# 2. Memory Heap or stack: 
+https://hashnode.com/post/does-javascript-use-stack-or-heap-for-memory-allocation-or-both-cj5jl90xl01nh1twuv8ug0bjk
+# 3. Stack size:
+https://glebbahmutov.com/blog/javascript-stack-size/
+# 4. Memory management:
+https://blog.sessionstack.com/how-javascript-works-memory-management-how-to-handle-4-common-memory-leaks-3f28b94cfbec
+# 5. Performance tuning:
+https://medium.com/@spp020/44-quick-tips-to-fine-tune-angular-performance-9f5768f5d945
+# 6. Code review:
+https://www.evoketechnologies.com/blog/code-review-checklist-perform-effective-code-reviews/
+https://gist.github.com/blakewest/10049924
+# 7. Interview questions:
+https://www.code-sample.com/2018/04/angular-7-interview-questions-and.html?m=1
+# 8. Time saving tips: 
+https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
