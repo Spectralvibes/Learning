@@ -35,7 +35,12 @@ inherit - The element inherits the float value of its parent
 # Explain how a browser determines what elements match a CSS selector.
 # Describe pseudo-elements and discuss what they are used for.
 # Explain your understanding of the box model and how you would tell the browser in CSS to render your layout in different box models.
+
+
 # What does * { box-sizing: border-box; } do? What are its advantages?
+Include padding and border in the element's total width and height
+
+
 # List as many values for the display property that you can remember.
 # What's the difference between inline and inline-block?
 # What's the difference between a relative, fixed, absolute and statically positioned element?
