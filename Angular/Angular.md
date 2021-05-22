@@ -1,44 +1,44 @@
-# Angular versions?
+
+# What is AOT vs JIT?
+Angular offers two ways to compile your application:
+- Just-in-Time (JIT), which compiles your app in the browser at runtime. This was the default until Angular 8.
+- Ahead-of-Time (AOT), which compiles your app and libraries at build time. This is the default since Angular 9.
+
+There are three phases of AOT compilation:
+- **Code analysis**: the TypeScript compiler and AOT collector create a representation of the source. The collector does not attempt to interpret the metadata it collects. It represents the metadata as best it can and records errors when it detects a metadata syntax violation.
+- **code generation**: In this phase, the compiler's StaticReflector interprets the metadata collected in phase 1, performs additional validation of the metadata, and throws an error if it detects a metadata restriction violation. 
+- template type checking (optional): In this optional phase, the Angular template compiler uses the TypeScript compiler to validate the binding expressions in templates. You can enable this phase explicitly by setting the fullTemplateTypeCheck configuration option. 
+[More on Angular.io](https://angular.io/guide/aot-compiler#ahead-of-time-aot-compilation)
 
 
-# Angularjs vs Angular
-
-
-# Compilation:
-   * Compiler vs Transpiler vs Interpreter
-   * JIT vs AOT
-
-
-# How Angular works?
-- [Stack overflow](https://stackoverflow.com/questions/50098245/what-exactly-triggers-main-ts-in-angular)
-- [Medium blog](https://medium.com/siam-vit/how-an-angular-app-work-behind-the-scenes-angular-flow-dcc4d1df27bd#:~:text=2.-,MAIN.,entry%20point%20of%20the%20application.&text=ts%20file%20calls%20the%20function,builder%20to%20bootstrap%20the%20app.)
-
-# Building blocks of Angular:
- * Components
- * Data Binding
- * Dependency Injection (DI)
- * Directives
- * Metadata
- * Modules
- * Routing
- * Services
- * Template
-
-
-# Event handling in Angular
-> [Know more...](https://angular.io/guide/event-binding)
+# What is code folding in Angular?
+The compiler can only resolve references to exported symbols in the metadata. Whereas some of the non-exported members are folded while generating the code. i.e Folding is a process in which the collector evaluates an expression during collection and record the result in the .metadata.json instead of the original expression. 
+- For example, the collector can evaluate the expression 1 + 2 + 3 + 4 and replace it with the result, 10. This process is called folding. An expression that can be reduced in this manner is foldable.
+- Another example, the compiler couldn't refer selector reference because it is not exported,
+```javascript
+let selector = 'app-root';
+@Component({
+ selector: selector
+})
+Will be folded into the inline selector
+@Component({
+ selector: 'app-root'
+})
+```
+Remember that the compiler can’t fold everything. For example, spread operator on arrays, objects created using new keywords and function calls.
+> [More on Angular.io](https://angular.io/guide/aot-compiler#code-folding)
 
 
 # Angular Lifecycle Hooks:
  * Constructor()
- * OnChange()
- * OnInit()
- * DoCheck()
-	 * AfterContentInit()
-	 * AfterContentChecked()
-	 * AfterViewInit()
-	 * AfterViewChecked()
- * OnDestroy()
+ * OnChange(): Respond when Angular sets or resets data-bound input properties. The method receives a SimpleChanges object of current and previous property values.
+ * OnInit(): Initialize the directive or component after Angular first displays the data-bound properties and sets the directive or component's input properties.
+ * DoCheck(): Detect and act upon changes that Angular can't or won't detect on its own. Called immediately after ngOnChanges() on every change detection run, and immediately after ngOnInit() on the first run.
+	 * AfterContentInit(): Respond after Angular projects external content into the component's view, or into the view that a directive is in. Called once after the first ngDoCheck().
+	 * AfterContentChecked(): Respond after Angular checks the content projected into the directive or component. Called after ngAfterContentInit() and every subsequent ngDoCheck().
+	 * AfterViewInit(): Respond after Angular initializes the component's views and child views, or the view that contains the directive. Called once after the first ngAfterContentChecked().
+	 * AfterViewChecked(): Respond after Angular checks the component's views and child views, or the view that contains the directive. Called after the ngAfterViewInit() and every subsequent ngAfterContentChecked().
+ * OnDestroy(): Cleanup just before Angular destroys the directive or component. Unsubscribe Observables and detach event handlers to avoid memory leaks. Called immediately before Angular destroys the directive or component.
 > [Know more...](https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence)
 
 
@@ -50,8 +50,63 @@ References:
 - https://blog.angular-university.io/angular-components-and-directives-for-beginners/
 
 
+# What is IVY? How it works?
+**Ivy is a complete rewrite of Angular’s rendering engine**
+Why Ivy?
+- 🚀 reach better build times (with a more incremental compilation)
+- 🔥 reach better build sizes (with a generated code more compatible with tree-shaking)
+- More debugging tools
+	- Now you have more tools to debug your applications. You have the new ng object for debugging while running an application in Dev Mode. With this you can now gain access to instances of your components, directives, etc.
+- 🔓 unlock new potential features 
+	- metaprogramming or higher order components
+	- lazy loading of component instead of modules
+	- a new change detection system not based on zone.js…
+- Improved handling of styles and style merging
+	- Handling of styles has been greatly improved in Ivy. Usually what happens is that if there were two competing definitions for a style, then those styles would destructively replace each other. Now they are just merged predictably.
+	```javascript
+	<div 	[class]="myClasses"
+			[class.highlighted]="isHighlighted">
+	</div>
+	```
+- Tree shaking
+Tree-shaking refers to the fact that unused codes can be removed. It is handled with the help of static analysis. This does not run any code. The team of Ivy has designed Ivy with Tree-Shaking in mind. Iv can result in breaking down things into smaller, atomic functions. The atomic functions would go on to make your renderer code quite user-friendly.
+The tree-shakable features of Angular include:
+	- Template syntax
+	- Content projection
+	- Dependency injection
+	- Structural directives
+	- Pipes
+	- Listeners
+	- Lifecycle hooks
+	- Queries
+- Faster Testing
+	- New concepts are added, long-standing performance problems are resolved, and types are improved. 
+	- The implementation of TestBed is revamped to make Ivy more efficient. Previously, irrespective of any changes done to the components, TestBed was used to recompiling the entire component while running each test. 
+	- However, in Angular Ivy, it recompiles components only when there has been any manual overridden, which avoids recompilation in a majority of tests. It is expected that users can experience a 40 to 50 % increase in speed in their app testing.
+
+- Incremental DOM:
+	- Incremental DOM is a library for building up DOM trees and updating them in-place when data changes.
+	- JavaScript can be used to extract, iterate over and transform data into calls generating HTMLElements and Text nodes. 
+	- It differs from the established virtual DOM approach in that no intermediate tree is created (the existing tree is mutated in-place).
+	- This approach significantly reduces memory allocation and GC thrashing for incremental updates to the DOM tree therefore increasing performance significantly in some cases.
+
+
 # What are directives? What are different types of directives?
 
+
+# How to reduce bundle size in Angular?
+- `ng build --prod --build-optimizer` is a good option for people using less than Angular v5. For newer versions, this is done by default with `ng build --prod`
+- Another option is to use module chunking/lazy loading to better split your application into smaller chunks
+- Ivy rendering engine comes by default in Angular 9, it offers better bundle sizes
+- Make sure your 3rd party deps are tree shakeable. If you're not using Rxjs v6 yet, you should be.
+- If all else fails, use a tool like webpack-bundle-analyzer to see what is causing bloat in your modules
+- Check if you files are gzipped
+There are a few things you can do to help the performance of your application:
+- AOT & Tree Shaking (angular-cli does this out of the box). With Angular 9 AOT is by default on prod and dev environment.
+- Using Angular Universal A.K.A. server-side rendering (not in cli)
+- Web Workers (again, not in cli, but a very requested feature) [More...] (https://github.com/angular/angular-cli/issues/2305)
+- Service Workers: [More..](see: https://github.com/angular/angular-cli/issues/4006)
+You may not need all of these in a single application, but these are some of the options that are currently present for optimizing Angular performance. I believe/hope Google is aware of the out of the box shortcomings in terms of performance and plans to improve this in the future.
 
 
 # What is RxJS? What are RxJS subjects, operators?
@@ -82,8 +137,6 @@ const observable = new Observable(observer => {
 [Read](https://devsuhas.com/2019/12/09/difference-between-subject-and-behaviour-subject-in-rxjs/)
 
 
-# What is viewChild and viewChildren?
-
 
 # What is the difference between promise and observable?
 - Observables are Declarative: Computation does not start until subscription; so that they can be run whenever you need the result.
@@ -108,31 +161,6 @@ The RxJS library also provides below utility functions for creating and working 
 - concat() : Used to concatenate multiple strings.
 - merge(): Used to recursively descend into object properties in the source copy, while forming a deep copy of the same.
 
-
-# What are web workers?
-Web workers enables JavaScript application to run the CPU-intensive tasks in the background so that the application main thread concentrate on the smooth operation of UI. Angular provides support for including Web workers in the application.
-
-
-
-# What are components?
-- A component(@component) is a directive-with-a-template.
-- A class with the @Component() decorator that associates it with a companion template. 
-- Together, the component and template define a view. 
-- A component is a special type of directive. 
-- The @Component() decorator extends the @Directive() decorator with template-oriented features.
-	
-
-# What is a module?
-NgModules are containers for a cohesive block of code dedicated to an application domain, a workflow, or a closely related set of capabilities. The application is divided into separate modules to separate the functionality of your application.
-> [Know more...](https://hackr.io/blog/angular-interview-questions)
-
-
-# What is Redux? 
-- It is a library which helps us maintain the state of the application. 
-- Redux is not required in applications that are simple with the simple data flow, 
-- it is used in Single Page Applications that have complex data flow. 
-## What Is Flux?
-Flux is a data flow architecture created by Facebook back in 2014. 
 
 # What is Data Binding? How many ways it can be done?
 - Event Binding:
@@ -161,14 +189,21 @@ bindon-target="expression"
 Type: Two-way
 
 
-# Angular architecture overview
+# What is dependency injection in Angular?
+Dependency injection (DI), is an important application design pattern in which a class asks for dependencies from external sources rather than creating them itself. 
+Angular comes with its own dependency injection framework for resolving dependencies( services or objects that a class needs to perform its function).
+So you can have your services depend on other services throughout your application.
 
 
-# What is ViewEncapsulation and how many ways are there do to do it in Angular?
-To put simply, ViewEncapsulation determines whether the styles defined in a particular component will affect the entire application or not. Angular supports 3 types of ViewEncapsulation:
-- Emulated: Styles used in other HTML spread to the component
-- Native: Styles used in other HTML doesn't spread to the component
-- None: Styles defined in a component are visible to all components of the application
+# How is Dependency Hierarchy formed?/ How dependency injection works?
+
+
+# What is Redux? 
+- It is a library which helps us maintain the state of the application. 
+- Redux is not required in applications that are simple with the simple data flow, 
+- it is used in Single Page Applications that have complex data flow. 
+## What Is Flux?
+Flux is a data flow architecture created by Facebook back in 2014. 
 
 
 # What is ng-template, ng-container, ng-content directive?
@@ -178,12 +213,11 @@ To put simply, ViewEncapsulation determines whether the styles defined in a part
 > [Know more...](https://medium.com/@joshblf/wtf-is-ng-content-8382b2a664e1)
 
 
-# Why prioritize TypeScript over JavaScript in Angular?
-> [Know more...](https://stackoverflow.com/questions/12694530/what-is-typescript-and-why-would-i-use-it-in-place-of-javascript)
-> [Know more...](https://dzone.com/articles/what-is-typescript-and-why-use-it#:~:text=TypeScript%20simplifies%20JavaScript%20code%2C%20making%20it%20easier%20to%20read%20and%20debug.&text=TypeScript%20provides%20highly%20productive%20development,huge%20improvement%20over%20plain%20JavaScript.)
-
-
-# What is folding in Angular?
+# What is ViewEncapsulation and how many ways are there do to do it in Angular?
+To put simply, ViewEncapsulation determines whether the styles defined in a particular component will affect the entire application or not. Angular supports 3 types of ViewEncapsulation:
+- Emulated: Styles used in other HTML spread to the component
+- Native: Styles used in other HTML doesn't spread to the component
+- None: Styles defined in a component are visible to all components of the application
 
 
 # Angular Authentication and Authorization? How to implement Authentication and authorization?
@@ -240,9 +274,96 @@ export class JwtInterceptor implements HttpInterceptor {
     }
 }
 ```
-
-
 > [Know more...](https://www.tutorialspoint.com/angular8/angular8_authentication_and_authorization.htm)
+
+
+# What is an AsyncPipe in Angular? What is the purpose of async pipe?
+When an observable or promise returns something, we use a temporary property to hold the content. Later, we bind the same content to the template. 
+With the usage of AsyncPipe, the promise or observable can be directly used in a template and a temporary property is not required.
+- **Purpose**: The AsyncPipe subscribes to an observable or promise and returns the latest value it has emitted. When a new value is emitted, the pipe marks the component to be checked for changes.
+
+
+# What are structural directives?
+
+
+# Accessibility
+Accessibility support is one of the important feature of every UI based application. Accessibility is a way of designing the application so that, it is accessible for those having certain disabilities as well. Let us learn the support provided by Angular to develop application with good accessibility.
+- While using attribute binding, use attr. prefix for ARIA attributes.
+- Use Angular material component for Accessibility. Some of the useful components are LiveAnnouncer and cdkTrapFocu.
+- Use native HTML elements wherever possible because native HTML element provides maximum accessibility features. When creating a component, select native html element matching your use case instead of redeveloping the native functionality.
+- Use NavigationEnd to track and control the focus of the application as it greatly helps in accessibility.
+
+
+# What are some points to consider when optimizing an Angular application for performance?
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+
+# Angular Unit tests:
+
+
+# Angular versions?
+
+
+# Angularjs vs Angular
+
+
+# Compilation:
+   * Compiler vs Transpiler vs Interpreter
+
+
+
+# How Angular works?
+- [Stack overflow](https://stackoverflow.com/questions/50098245/what-exactly-triggers-main-ts-in-angular)
+- [Medium blog](https://medium.com/siam-vit/how-an-angular-app-work-behind-the-scenes-angular-flow-dcc4d1df27bd#:~:text=2.-,MAIN.,entry%20point%20of%20the%20application.&text=ts%20file%20calls%20the%20function,builder%20to%20bootstrap%20the%20app.)
+
+
+# Building blocks of Angular:
+ * Components
+ * Data Binding
+ * Dependency Injection (DI)
+ * Directives
+ * Metadata
+ * Modules
+ * Routing
+ * Services
+ * Template
+
+
+# Event handling in Angular
+> [Know more...](https://angular.io/guide/event-binding)
+
+
+# How components are lazy loaded in Angular?
+
+
+# What is viewChild and viewChildren?
+
+
+# What are web workers?
+Web workers enables JavaScript application to run the CPU-intensive tasks in the background so that the application main thread concentrate on the smooth operation of UI. Angular provides support for including Web workers in the application.
+
+
+# What are components?
+- A component(@component) is a directive-with-a-template.
+- A class with the @Component() decorator that associates it with a companion template. 
+- Together, the component and template define a view. 
+- A component is a special type of directive. 
+- The @Component() decorator extends the @Directive() decorator with template-oriented features.
+	
+
+# What is a module?
+NgModules are containers for a cohesive block of code dedicated to an application domain, a workflow, or a closely related set of capabilities. The application is divided into separate modules to separate the functionality of your application.
+> [Know more...](https://hackr.io/blog/angular-interview-questions)
+
+
+# Angular architecture overview
+
+
+# Why prioritize TypeScript over JavaScript in Angular?
+> [Know more...](https://stackoverflow.com/questions/12694530/what-is-typescript-and-why-would-i-use-it-in-place-of-javascript)
+> [Know more...](https://dzone.com/articles/what-is-typescript-and-why-use-it#:~:text=TypeScript%20simplifies%20JavaScript%20code%2C%20making%20it%20easier%20to%20read%20and%20debug.&text=TypeScript%20provides%20highly%20productive%20development,huge%20improvement%20over%20plain%20JavaScript.)
 
 
 # What is the purpose of using package.json in the angular project?
@@ -253,10 +374,6 @@ export class JwtInterceptor implements HttpInterceptor {
 It is a method which is subscribed to an observable. Whenever the subscribe method is called, an independent execution of the observable happens.
 
 
-# What is an AsyncPipe in Angular? What is the purpose of async pipe?
-When an observable or promise returns something, we use a temporary property to hold the content. Later, we bind the same content to the template. 
-With the usage of AsyncPipe, the promise or observable can be directly used in a template and a temporary property is not required.
-- **Purpose**: The AsyncPipe subscribes to an observable or promise and returns the latest value it has emitted. When a new value is emitted, the pipe marks the component to be checked for changes.
 
 
 # Angular design pattern
@@ -300,15 +417,6 @@ export class DebugService {
 	- 'platform' : A special singleton platform injector shared by all applications on the page.
 	- 'any' : Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.
 - [Dependency Injection in Action](https://angular.io/guide/dependency-injection-in-action)
-
-
-# What is dependency injection in Angular?
-Dependency injection (DI), is an important application design pattern in which a class asks for dependencies from external sources rather than creating them itself. 
-Angular comes with its own dependency injection framework for resolving dependencies( services or objects that a class needs to perform its function).
-So you can have your services depend on other services throughout your application.
-
-
-# How is Dependency Hierarchy formed?/ How dependency injection works?
 
 
 
@@ -491,8 +599,6 @@ Service workers function as a network proxy. They intercept all outgoing HTTP re
 # What is Template reference variables?
 
 
-# What are structural directives?
-
 
 # What are all the types of Directives?
 
@@ -585,9 +691,6 @@ Service workers function as a network proxy. They intercept all outgoing HTTP re
 
 
 # Explain the Template Driven Forms.
-
-
-# What is ivy compiler
 
 
 # Explain Model Driven Forms or Reactive Forms.
@@ -740,8 +843,6 @@ Reactive forms concepts:
 # What are Core and Shared modules for?
 
 
-# What are some points to consider when optimizing an Angular application for performance?
-
 
 # What are some important practices to secure an Angular application?
 
@@ -761,11 +862,6 @@ Reactive forms concepts:
 # What are es6 modules?
 
 # What is lint?
-
-
-
-# Which of the Angular life cycle component execution happens when a data-bound input value updates?
-		ngOnChanges()
 
 
 # What is subscribing?
@@ -795,14 +891,6 @@ myObservable.subscribe(myObserver);
 
 
 # Internationalization (i18n)
-
-
-# Accessibility
-Accessibility support is one of the important feature of every UI based application. Accessibility is a way of designing the application so that, it is accessible for those having certain disabilities as well. Let us learn the support provided by Angular to develop application with good accessibility.
-- While using attribute binding, use attr. prefix for ARIA attributes.
-- Use Angular material component for Accessibility. Some of the useful components are LiveAnnouncer and cdkTrapFocu.
-- Use native HTML elements wherever possible because native HTML element provides maximum accessibility features. When creating a component, select native html element matching your use case instead of redeveloping the native functionality.
-- Use NavigationEnd to track and control the focus of the application as it greatly helps in accessibility.
 
 
 # Server Side Rendering
