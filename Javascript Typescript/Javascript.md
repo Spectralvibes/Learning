@@ -40,6 +40,16 @@ Number(6).valueof()
 - [More on var](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
 
 
+# Temporal dead zone
+`let` and `const` are hoisted (like `var`, `class` and `function`), but there is a period between entering scope and being declared where they cannot be accessed. This period is the **temporal dead zone (TDZ)**.
+```javascript
+let foo = () => bar; 
+let bar = 'bar'; 
+foo();
+```
+[ECMA-262 Standard](https://262.ecma-international.org/9.0/#sec-let-and-const-declarations): let and const declarations define variables that are scoped to the running execution context's LexicalEnvironment. The variables are created when their containing Lexical Environment is instantiated but may not be accessed in any way until the variable's LexicalBinding is evaluated.
+
+
 # Why closure works differently with var and let in below example?
 ```javascript
 // prints '10' 10 times
@@ -739,14 +749,7 @@ function multiInherit (...protos) {
 [More on stackoverflow](https://stackoverflow.com/questions/9163341/multiple-inheritance-prototypes-in-javascript)
 
 
-# Temporal dead zone
-`let` and `const` are hoisted (like `var`, `class` and `function`), but there is a period between entering scope and being declared where they cannot be accessed. This period is the **temporal dead zone (TDZ)**.
-```javascript
-let foo = () => bar; 
-let bar = 'bar'; 
-foo();
-```
-[ECMA-262 Standard](https://262.ecma-international.org/9.0/#sec-let-and-const-declarations): let and const declarations define variables that are scoped to the running execution context's LexicalEnvironment. The variables are created when their containing Lexical Environment is instantiated but may not be accessed in any way until the variable's LexicalBinding is evaluated.
+
 
 
 # What's a typical use case for anonymous functions?
