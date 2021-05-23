@@ -1,6 +1,8 @@
 # What is JavaScript?
 JavaScript (JS) is a lightweight interpreted or JIT-compiled programming language with first-class functions.
 
+> # Data types and scope
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 # What are JavaScript data types?
 In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol (new in ECMAScript 2015).
@@ -23,11 +25,19 @@ Number(6).valueof()
 [More details...](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)
 
 
+# Hoisting:
+Conceptually, for example, a strict definition of hoisting suggests that variable and function declarations are physically moved to the top of your code, but this is not in fact what happens. Instead, the variable and function declarations are put into memory during the compile phase, but stay exactly where you typed them in your code.
+- Only declarations are hoisted i.e. variable declarations and function declarations are hoisted
+- `let` and `const` are hoisted (like `var`, `class` and `function`), but there is a period between entering scope and being declared where they cannot be accessed. This period is the **temporal dead zone (TDZ)**.
+[More on MDN](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting)
+
+
 # What are the differences between variables created using let, var or const?
 - Scope:
   - var is function or global scoped
   - let and const are block scoped
-  - var creates a property on the global object 
+  - var creates a property on the global object
+    - If global object is window then global variables can override window properties
   - let/const does not create a property on the global object 
 - Hoisting
   - While variables declared with var keyword are hoisted (initialized with undefined before the code is run) which means they are accessible in their enclosing scope even before they are declared
@@ -48,6 +58,26 @@ let bar = 'bar';
 foo();
 ```
 [ECMA-262 Standard](https://262.ecma-international.org/9.0/#sec-let-and-const-declarations): let and const declarations define variables that are scoped to the running execution context's LexicalEnvironment. The variables are created when their containing Lexical Environment is instantiated but may not be accessed in any way until the variable's LexicalBinding is evaluated.
+
+
+
+
+# Lexical vs dynamic scope
+- JavaScript does not, in fact, have dynamic scope. It has lexical scope. But the `this` mechanism is kind of like dynamic scope.
+- The key contrast: lexical scope is write-time, whereas dynamic scope (and `this`!) are runtime. Lexical scope cares where a function was declared, but dynamic scope cares where a function was called from.
+- Finally: `this` cares how a function was called, which shows how closely related the `this` mechanism is to the idea of dynamic scoping.
+
+
+# Global, local block scope
+- The Global scope
+  A variable exists inside or outside a block. If a variable is declared outside all functions or curly braces ({}), it exists in the global scope. The global variables can be accessed by any line of code in the program, including inside blocks.
+- The Local scope
+  In contrast to global variables, locally scoped ones are only visible within the function they are declared. Each function written in JavaScript creates a new local scope and every variable declared in this scope is a local variable. That means that variables with the same name can be used in different functions. However, any effort to reference a local variable outside its scope will result in a Reference Error.
+- The Block scope
+  - So far, we’ve seen variables defined with the var keyword. Var can declare a variable either in the global or local scope. The variables that are declared within the block scope are comparable to local ones. They are available within the block that they are defined.
+  - The main difference between the local scope and block scope is that the block statements (e.g. if conditions or for loops), don't create a new scope. So the var keyword will not have an effect, because the variables are still in the same scope.
+  - ES6 introduced block scope by using the let and const keywords. These two keywords are scoped within the block which are defined.
+> [More on dev.io](https://dev.to/ale3oula/the-hor-r-o-r-scope-global-local-and-block-scope-in-js-37a1#:~:text=The%20Block%20scope&text=Var%20can%20declare%20a%20variable,block%20that%20they%20are%20defined.)
 
 
 # Why closure works differently with var and let in below example?
@@ -102,34 +132,26 @@ It has different values depending on where it is used:
 - [More on W3Schools...](https://www.w3schools.com/js/js_this.asp)
 
 
-# Array.prototype.map()
-The map() method creates a new array populated with the results of calling a provided function on every element in the calling array.
+# Automatically global scope:
+If you assign a value to a variable that has not been declared, it will automatically become a GLOBAL variable.
 ```javascript
-let numbers = [1, 4, 9]
-let roots = numbers.map(function(num) {
-    return Math.sqrt(num)
-})
-// roots is now     [1, 2, 3]
-// numbers is still [1, 4, 9]
+// Accessing carName gives ReferenceError
+myFunction(); 
+// code here can use carName
+function myFunction() {
+  carName = "Volvo";
+}
 ```
-[Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 
 
-# Array methods
-[Know more...](https://www.w3schools.com/jsref/jsref_obj_array.asp)
+# What are the ways to manipulate scope and reference to this?
 
 
-# Explain event delegation
-- The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor.
-- In the handler we get event.target to see where the event actually happened and handle it.
-
-- [David Walsh blog](https://davidwalsh.name/event-delegate)
-- [Dmitri Pavlutin blog](https://dmitripavlutin.com/javascript-event-delegation/)
+> [Scope on scotch](https://scotch.io/tutorials/understanding-scope-in-javascript)
 
 
-# Events in detail
-[More on MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)
-
+> # Objects
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 # Explain how prototypal inheritance works?
 JavaScript objects are dynamic "bags" of properties (referred to as own properties). JavaScript objects have a link to a prototype object. When trying to access a property of an object, the property will not only be sought on the object but on the prototype of the object, the prototype of the prototype, and so on until either a property with a matching name is found or the end of the prototype chain is reached.
@@ -141,55 +163,56 @@ JavaScript objects are dynamic "bags" of properties (referred to as own properti
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#different_ways_to_create_objects_and_the_resulting_prototype_chain)
 
 
-# How Pseudoclassical Inheritance works?
-[Pseudoclassical Inheritance](https://dev.to/tangweejieleslie/pseudoclassical-inheritance-pattern-in-javascript-1a48)
+# Pass by value n pass by reference
 
+
+# Destructuring? How to do destructuring for Objects?
+The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
+```javascript
+// Array destructuring
+
+// Object destructuring
+const hero = {
+  name: 'Batman',
+  realName: 'Bruce Wayne'
+};
+
+const { name, realName } = hero;
+
+name;     // => 'Batman',
+realName; // => 'Bruce Wayne'
+```
+
+
+# Object methods and manipulation techniques
+
+
+> # Functions
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 # What is a closure, and how/why would you use one?
 A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time.
 [Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)
 
 
-# Generators:
-Generators are functions that can be exited and later re-entered. Their context (variable bindings) will be saved across re-entrances.
-- **Generator function***: The function* declaration (function keyword followed by an asterisk) defines a generator function, which returns a Generator object.
-[Generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
-- **Generator object**: The Generator object is returned by a generator function and it conforms to both the iterable protocol and the iterator protocol.
-[Generator object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator)
+# IIFE
+An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined. 
+[MDN](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
 
 
+# What is arrow function? How it differs from function?
 
-# Explain Function.prototype.bind()
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind)
-
-
-# What's the difference between .call and .apply?
-The call() method calls a function with a given this value and arguments provided individually.
-[call](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
-The apply() method calls a function with a given this value, and arguments provided as an array (or an array-like object).
-[apply](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
-
-
-# Hoisting:
-Hoisting was thought up as a general way of thinking about how execution contexts (specifically the creation and execution phases) work in JavaScript. However, the concept can be a little confusing at first.
-
-Conceptually, for example, a strict definition of hoisting suggests that variable and function declarations are physically moved to the top of your code, but this is not in fact what happens. Instead, the variable and function declarations are put into memory during the compile phase, but stay exactly where you typed them in your code.
-[More on MDN](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting)
-
-
-# Function in detail
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
-
-
-# What are async functions?
-An async function is a function declared with the async keyword, and the await keyword is permitted within them. The async and await keywords enable asynchronous, promise-based behavior to be written in a cleaner style, avoiding the need to explicitly configure promise chains.
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
 
 # function types
 - First class functions: A programming language is said to have First-class functions when functions in that language are treated like any other variable. For example, in such a language, a function can be passed as an argument to other functions, can be returned by another function and can be assigned as a value to a variable.
 - Higher order function: A function that returns a function is called a Higher-Order Function.
 - Pure functions: The function return values are identical for identical arguments.
+
+
+# What are async functions?
+An async function is a function declared with the async keyword, and the await keyword is permitted within them. The async and await keywords enable asynchronous, promise-based behavior to be written in a cleaner style, avoiding the need to explicitly configure promise chains.
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
 
 # function currying, partial function, function composition: curring vs composition?
@@ -212,6 +235,30 @@ An async function is a function declared with the async keyword, and the await k
 - Since a nested function is a closure, this means that a nested function can "inherit" the arguments and variables of its containing function. In other words, the inner function contains the scope of the outer function.
 [Closures on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#nested_functions_and_closures)
 
+# Generators:
+Generators are functions that can be exited and later re-entered. Their context (variable bindings) will be saved across re-entrances.
+- **Generator function***: The function* declaration (function keyword followed by an asterisk) defines a generator function, which returns a Generator object.
+[Generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
+- **Generator object**: The Generator object is returned by a generator function and it conforms to both the iterable protocol and the iterator protocol.
+[Generator object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator)
+
+
+# What's the difference between .call and .apply?
+The call() method calls a function with a given this value and arguments provided individually.
+[call](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
+The apply() method calls a function with a given this value, and arguments provided as an array (or an array-like object).
+[apply](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+
+
+> # Event handling:
+---------------------------------------------------------------------------------------------------------------------------------------------
+# Explain event delegation
+- The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor.
+- In the handler we get event.target to see where the event actually happened and handle it.
+
+- [David Walsh blog](https://davidwalsh.name/event-delegate)
+- [Dmitri Pavlutin blog](https://dmitripavlutin.com/javascript-event-delegation/)
+
 
 # Event bubbling and capture:
 When an event is fired on an element that has parent elements , modern browsers run two different phases — the capturing phase and the bubbling phase.
@@ -224,29 +271,31 @@ When an event is fired on an element that has parent elements , modern browsers 
 > [More on MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling_and_capture)
 
 
-# Difference between document load event and document DOMContentLoaded event?
-- The **DOMContentLoaded** event fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, and subframes to finish loading.
-- A different event, load, should be used only to detect a fully-loaded page. It is a common mistake to use load where DOMContentLoaded would be more appropriate.
-- The load event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to DOMContentLoaded, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
+
+> # Concurrency model and Event Loop
+---------------------------------------------------------------------------------------------------------------------------------------------
+# Promise
 
 
-# Why would you use something like the load event? Does this event have disadvantages? Do you know any alternatives, and why would you use those?
+# Observable
 
 
-# Explain the same-origin policy with regards to JavaScript.
-The same-origin policy is a critical security mechanism that restricts how a document or script loaded from one origin can interact with a resource from another origin. It helps isolate potentially malicious documents, reducing possible attack vectors.
-[More on MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+# Subjects
 
 
-# What is "use strict";? what are the advantages and disadvantages to using it? 
-JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript
-Advantages:
-- Strict mode makes it easier to write "secure" JavaScript.
-- Strict mode changes previously accepted "bad syntax" into real errors.
-- As an example, in normal JavaScript, mistyping a variable name creates a new global variable. In strict mode, this will throw an error, making it impossible to accidentally create a global variable.
-- In normal JavaScript, a developer will not receive any error feedback assigning values to non-writable properties.
-- In strict mode, any assignment to a non-writable property, a getter-only property, a non-existing property, a non-existing variable, or a non-existing object, will throw an error.
-> [More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+# Difference: Promise, Observable, Subject, BehaviorSubject
+
+
+# What are the pros and cons of using Promises instead of callbacks?
+
+# *Async & await
+
+# Asynchronous javascript:
+[Know more](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous)
+
+
+# Event loop:
+[Read on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop)
 
 
 # Promises:
@@ -268,24 +317,8 @@ new Promise((resolve, reject) => {
 [More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
 
-# Spread operator vs rest argument
-When using spread, you are expanding a single variable into more:
-```javascript
-var abc = ['a', 'b', 'c'];
-var def = ['d', 'e', 'f'];
-var alpha = [ ...abc, ...def ];
-console.log(alpha)// alpha == ['a', 'b', 'c', 'd', 'e', 'f'];
-```
-When using rest arguments, you are collapsing all remaining arguments of a function into one array:
-```javascript
-function sum( first, ...others ) {
-    for ( var i = 0; i < others.length; i++ )
-        first += others[i];
-    return first;
-}
-console.log(sum(1,2,3,4)) // sum(1, 2, 3, 4) == 10;
-```
-
+# - ES6 features:
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 # What are ES6 features?
 ES6 includes the following new features:
@@ -312,43 +345,23 @@ ES6 includes the following new features:
 - tail calls
 
 
-# What is fetch api?
-The Fetch API provides a JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses. It also provides a global fetch() method that provides an easy, logical way to fetch resources asynchronously across the network.
+# Spread operator vs rest argument
+When using spread, you are expanding a single variable into more:
 ```javascript
-fetch('http://example.com/movies.json')
-  .then(response => response.json())
-  .then(data => console.log(data));
+var abc = ['a', 'b', 'c'];
+var def = ['d', 'e', 'f'];
+var alpha = [ ...abc, ...def ];
+console.log(alpha)// alpha == ['a', 'b', 'c', 'd', 'e', 'f'];
 ```
-- With request options
+When using rest arguments, you are collapsing all remaining arguments of a function into one array:
 ```javascript
-// Example POST method implementation:
-async function postData(url = '', data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+function sum( first, ...others ) {
+    for ( var i = 0; i < others.length; i++ )
+        first += others[i];
+    return first;
 }
-
-postData('https://example.com/answer', { answer: 42 })
-  .then(data => {
-    console.log(data); // JSON data parsed by `data.json()` call
-  });
+console.log(sum(1,2,3,4)) // sum(1, 2, 3, 4) == 10;
 ```
-
-
-# Event loop:
-[Read on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop)
 
 
 # What is spread operator?
@@ -356,9 +369,8 @@ Spread syntax (...) allows an iterable such as an array expression or string to 
 [Know more](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 
 
-# Asynchronous JavaScript 
-[Know more](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous)
-
+# Collections: Keyed collections, Indexed collections (Arrays) 
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 # Keyed collections, Indexed collections
 - Keyed collections [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections)
@@ -406,75 +418,45 @@ Spread syntax (...) allows an iterable such as an array expression or string to 
     JavaScript typed arrays are array-like objects and provide a mechanism for accessing raw binary data.
 
 
-# JavaScript Accessors (Getters and Setters)
-The getter and setter keyword are used for accessing the objects. The getter return value is used when a property is being accessed and the setter takes an argument and sets the property value inside the object to that passed argument.
-```JAVASCRIPT
-// Create an object:
-var person = {
-  firstName: "John",
-  lastName : "Doe",
-  language : "",
-  set lang(lang) {
-    this.language = lang;
-  },
-  get lang() {
-    return this.language;
-  }
-
-};
-// Set an object property using a setter:
- person.lang = "en";
-// Display data from the object using a getter:
-console.log(person.lang); // en
-```
-[W3Schools](https://www.w3schools.com/js/js_object_accessors.asp)
+# Array Methods:
 
 
-# Lexical vs dynamic scope
-- JavaScript does not, in fact, have dynamic scope. It has lexical scope. But the `this` mechanism is kind of like dynamic scope.
-- The key contrast: lexical scope is write-time, whereas dynamic scope (and `this`!) are runtime. Lexical scope cares where a function was declared, but dynamic scope cares where a function was called from.
-- Finally: `this` cares how a function was called, which shows how closely related the `this` mechanism is to the idea of dynamic scoping.
+# - Memory and storages
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+# How to find memory leaks in JavaScript?
+# JavaScript memory management
+# Applications caching
+# Cookies?
+# local storage, session storage
+# IndexDB
+# WebSQL
+# Any others ways or libraries?
 
 
-# Global, local block scope
-- The Global scope
-  A variable exists inside or outside a block. If a variable is declared outside all functions or curly braces ({}), it exists in the global scope. The global variables can be accessed by any line of code in the program, including inside blocks.
-- The Local scope
-  In contrast to global variables, locally scoped ones are only visible within the function they are declared. Each function written in JavaScript creates a new local scope and every variable declared in this scope is a local variable. That means that variables with the same name can be used in different functions. However, any effort to reference a local variable outside its scope will result in a Reference Error.
-- The Block scope
-  - So far, we’ve seen variables defined with the var keyword. Var can declare a variable either in the global or local scope. The variables that are declared within the block scope are comparable to local ones. They are available within the block that they are defined.
-  - The main difference between the local scope and block scope is that the block statements (e.g. if conditions or for loops), don't create a new scope. So the var keyword will not have an effect, because the variables are still in the same scope.
-  - ES6 introduced block scope by using the let and const keywords. These two keywords are scoped within the block which are defined.
-> [More on dev.io](https://dev.to/ale3oula/the-hor-r-o-r-scope-global-local-and-block-scope-in-js-37a1#:~:text=The%20Block%20scope&text=Var%20can%20declare%20a%20variable,block%20that%20they%20are%20defined.)
+# - Network operations
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+# Debouncing and Throttling in JavaScript
+- **Throttling** will delay executing a function. It will reduce the notifications of an event that fires multiple times.
+- **Debouncing** will bunch a series of sequential calls to a function into a single call to that function. It ensures that one notification is made for an event that fires multiple times.
+[Read more](https://davidwalsh.name/function-debounce)
+
+# What are the differences between Long-Polling, Websockets and Server-Sent Events?
+
+# Service workers, web workers, web sockets?
 
 
-# Variable masking
-Transforming variable value to hide its original value. ***Needs modification***
+# - Performance related:
+---------------------------------------------------------------------------------------------------------------------------------------------
+# What tools would you use to find a performance bug in your code?
+# What are some ways you may improve your website's scrolling performance?
+# Explain the difference between layout, painting and compositing.
 
 
-# Variable shadowing
-In computer programming, **variable shadowing** occurs when a variable declared within a certain scope (decision block, method, or inner class) has the same name as a variable declared in an outer scope.
-
-
-# IIFE
-An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined. 
-[MDN](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
-
-
-# Interface
-
-
-# *Async & await
-
-
-# How many ways we can create object
-
-
-# How can we achieve multithreading in JavaScript?
-
-
-# Angular expression vs Javascript expression
-
+# - Debugging and Error handling
+---------------------------------------------------------------------------------------------------------------------------------------------
+# What tools and techniques do you use debugging JavaScript code?
 
 # Exceptions & error handling
 The try statement consists of a try-block, which contains one or more statements. {} must always be used, even for single statements. At least one catch-block, or a finally-block, must be present. This gives us three forms for the try statement:
@@ -520,6 +502,142 @@ Read more on MDN:
 - [try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
 - [throw](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw)
 
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+# Rarely asked:
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Array.prototype.map()
+The map() method creates a new array populated with the results of calling a provided function on every element in the calling array.
+```javascript
+let numbers = [1, 4, 9]
+let roots = numbers.map(function(num) {
+    return Math.sqrt(num)
+})
+// roots is now     [1, 2, 3]
+// numbers is still [1, 4, 9]
+```
+[Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+
+
+# Array methods
+[Know more...](https://www.w3schools.com/jsref/jsref_obj_array.asp)
+
+
+# Events in detail
+[More on MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)
+
+
+# How Pseudoclassical Inheritance works?
+[Pseudoclassical Inheritance](https://dev.to/tangweejieleslie/pseudoclassical-inheritance-pattern-in-javascript-1a48)
+
+
+# Explain Function.prototype.bind()
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind)
+
+
+# Function in detail
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
+
+
+# Why would you use something like the load event? Does this event have disadvantages? Do you know any alternatives, and why would you use those?
+
+
+# Explain the same-origin policy with regards to JavaScript.
+The same-origin policy is a critical security mechanism that restricts how a document or script loaded from one origin can interact with a resource from another origin. It helps isolate potentially malicious documents, reducing possible attack vectors.
+[More on MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
+
+# What is "use strict";? what are the advantages and disadvantages to using it? 
+JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript
+Advantages:
+- Strict mode makes it easier to write "secure" JavaScript.
+- Strict mode changes previously accepted "bad syntax" into real errors.
+- As an example, in normal JavaScript, mistyping a variable name creates a new global variable. In strict mode, this will throw an error, making it impossible to accidentally create a global variable.
+- In normal JavaScript, a developer will not receive any error feedback assigning values to non-writable properties.
+- In strict mode, any assignment to a non-writable property, a getter-only property, a non-existing property, a non-existing variable, or a non-existing object, will throw an error.
+> [More on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode)
+
+
+# What is fetch api?
+The Fetch API provides a JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses. It also provides a global fetch() method that provides an easy, logical way to fetch resources asynchronously across the network.
+```javascript
+fetch('http://example.com/movies.json')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+- With request options
+```javascript
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+postData('https://example.com/answer', { answer: 42 })
+  .then(data => {
+    console.log(data); // JSON data parsed by `data.json()` call
+  });
+```
+
+
+# JavaScript Accessors (Getters and Setters)
+The getter and setter keyword are used for accessing the objects. The getter return value is used when a property is being accessed and the setter takes an argument and sets the property value inside the object to that passed argument.
+```JAVASCRIPT
+// Create an object:
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  language : "",
+  set lang(lang) {
+    this.language = lang;
+  },
+  get lang() {
+    return this.language;
+  }
+
+};
+// Set an object property using a setter:
+ person.lang = "en";
+// Display data from the object using a getter:
+console.log(person.lang); // en
+```
+[W3Schools](https://www.w3schools.com/js/js_object_accessors.asp)
+
+
+# Variable masking
+Transforming variable value to hide its original value. ***Needs modification***
+
+
+# Variable shadowing
+In computer programming, **variable shadowing** occurs when a variable declared within a certain scope (decision block, method, or inner class) has the same name as a variable declared in an outer scope.
+
+
+# Interface
+
+
+# How many ways we can create object
+
+
+# How can we achieve multithreading in JavaScript?
+
+
+# Angular expression vs Javascript expression
+
 
 # What are falsy values in javascript?
 The following values evaluate to false (also known as Falsy values):
@@ -536,12 +654,6 @@ The following values evaluate to false (also known as Falsy values):
 # 93. Promises
 # 96. Ajax & JQuery
 # 97. valueof and unboxing
-# 98. How to find memory leaks in JavaScript?
-# 99. JavaScript memory management
-# 100. Applications caching
-# 101. Service worker
-# What are web workers?
-# Cookies?
 
 # Identifiers
 # 47.	Literals
@@ -561,38 +673,11 @@ The following values evaluate to false (also known as Falsy values):
 
 # memoization
 
-
-# Debouncing and Throttling in JavaScript
-- **Throttling** will delay executing a function. It will reduce the notifications of an event that fires multiple times.
-- **Debouncing** will bunch a series of sequential calls to a function into a single call to that function. It ensures that one notification is made for an event that fires multiple times.
-[Read more](https://davidwalsh.name/function-debounce)
-
-
-# Destructuring? How to do destructuring for Objects?
-The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
-```javascript
-// Array destructuring
-
-// Object destructuring
-const hero = {
-  name: 'Batman',
-  realName: 'Bruce Wayne'
-};
-
-const { name, realName } = hero;
-
-name;     // => 'Batman',
-realName; // => 'Bruce Wayne'
-```
-
-
-# 67.	Pass by value n pass by reference
 # 69.	Arrow notation
 # 71. Scope:
 
-# 32.What are the pros and cons of using Promises instead of callbacks?
 # 33.What are some of the advantages/disadvantages of writing JavaScript code in a language that compiles to JavaScript?
-# 34.What tools and techniques do you use debugging JavaScript code?
+
 # 35.What language constructions do you use for iterating over object properties and array items?
 # 36.Explain the difference between mutable and immutable objects.
 # 37.Explain the difference between synchronous and asynchronous functions.
@@ -612,16 +697,12 @@ realName; // => 'Bruce Wayne'
 - InternalError: Creates an instance representing an error that occurs when an internal error in the JavaScript engine is thrown. E.g. "too much recursion".
 
 
-Performance Questions:
 
-# What tools would you use to find a performance bug in your code?
-#  What are some ways you may improve your website's scrolling performance?
-# Explain the difference between layout, painting and compositing.
 
 
 Network Questions:
 # Traditionally, why has it been better to serve site assets from multiple domains?
-# What are the differences between Long-Polling, Websockets and Server-Sent Events?
+
 # Do your best to describe the process from the time you type in a website's URL to it finishing loading on your screen.
 # Explain the following request and response headers:
 # Diff. between Expires, Date, Age and If-Modified-...
@@ -703,10 +784,8 @@ if (navigator.userAgent.indexOf("MSIE 7") > -1){
 # What is garbage collection in javascript?
 
 
-
 # Mixin
 A mixin is a class (interface, in WebAPI spec terms) in which some or all of its methods and/or properties are unimplemented, requiring that another class or interface provide the missing implementations. The new class or interface then includes both the properties and methods from the mixin as well as those it defines itself. All of the methods and properties are used exactly the same regardless of whether they're implemented in the mixin or the interface or class that implements the mixin.
-
 
 
 # Multiple inheritance
@@ -749,9 +828,6 @@ function multiInherit (...protos) {
 [More on stackoverflow](https://stackoverflow.com/questions/9163341/multiple-inheritance-prototypes-in-javascript)
 
 
-
-
-
 # What's a typical use case for anonymous functions?
 Since Anonymous Functions are function expressions rather than the regular function declaration which are statements. Function expressions are more flexible. We can assign functions to variables, object properties, pass them as arguments to other functions, and even write a simple one line code enclosed in an anonymous functions.
 - Function expressions
@@ -778,3 +854,8 @@ https://gist.github.com/blakewest/10049924
 https://www.code-sample.com/2018/04/angular-7-interview-questions-and.html?m=1
 # 8. Time saving tips: 
 https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+# Good to know:
+---------------------------------------------------------------------------------------------------------------------------------------------
+

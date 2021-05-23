@@ -159,6 +159,13 @@ This document type includes all HTML elements in the transitional DTD as well as
 #  What is metadata tag?
 
 
+
+# Difference between document load event and document DOMContentLoaded event?
+- The **DOMContentLoaded** event fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, and subframes to finish loading.
+- A different event, load, should be used only to detect a fully-loaded page. It is a common mistake to use load where DOMContentLoaded would be more appropriate.
+- The load event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to DOMContentLoaded, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
+
+
 # What Would Happen If The HTML Document Does Not Contain `<!DOCTYPE>`?
 - It instructs the Web Browser about the version of HTML used for creating the Web page.
 - If the developer misses declaring the DOCTYPE information in the code, then new features and tags provided by HTML5, like `<article>`, `<footer>`, and `<header>` will not be supported. Additionally, the Browser may automatically go into Quirks or Strict Mode.
