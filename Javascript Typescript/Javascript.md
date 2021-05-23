@@ -2,7 +2,7 @@
 JavaScript (JS) is a lightweight interpreted or JIT-compiled programming language with first-class functions.
 
 > # Data types and scope
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # What are JavaScript data types?
 In JavaScript, a primitive (primitive value, primitive data type) is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol (new in ECMAScript 2015).
@@ -62,18 +62,66 @@ foo();
 
 
 
+# What is scope?
+Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. 
+
+
+# Execution context:
+The word context in Execution Context refers to scope and not context. This is a weird naming convention but because of the JavaScipt specification, we are tied to it.
+
+JavaScript is a single-threaded language so it can only execute a single task at a time. The rest of the tasks are queued in the Execution Context. As I told you earlier that when the JavaScript interpreter starts to execute your code, the context (scope) is by default set to be global. This global context is appended to your execution context which is actually the first context that starts the execution context.
+
+After that, each function call (invocation) would append its context to the execution context. The same thing happens when an another function is called inside that function or somewhere else.
+
+Once the browser is done with the code in that context, that context will then be popped off from the execution context and the state of the current context in the execution context will be transferred to the parent context. The browser always executes the execution context that is at the top of the execution stack (which is actually the innermost level of scope in your code).
+
+The execution context has two phases of creation and code execution.
+## Creation Phase
+The first phase that is the creation phase is present when a function is called but its code is not yet executed. Three main things that happen in the creation phase are:
+  - Creation of the Variable (Activation) Object,
+  - Creation of the Scope Chain, and
+  - Setting of the value of context (`this`)
+
+- Variable Object
+The Variable Object, also known as the activation object, contains all of the variables, functions and other declarations that are defined in a particular branch of the execution context. When a function is called, the interpreter scans it for all resources including function arguments, variables, and other declarations. Everything, when packed into a single object, becomes the the Variable Object.
+```javascript
+'variableObject': {
+    // contains function arguments, inner variable and function declarations
+}
+```
+- Scope Chain
+In the creation phase of the execution context, the scope chain is created after the variable object. The scope chain itself contains the variable object. The Scope Chain is used to resolve variables. When asked to resolve a variable, JavaScript always starts at the innermost level of the code nest and keeps jumping back to the parent scope until it finds the variable or any other resource it is looking for. The scope chain can simply be defined as an object containing the variable object of its own execution context and all the other execution contexts of it parents, an object having a bunch of other objects.
+```javascript
+'scopeChain': {
+    // contains its own variable object and other variable objects of the parent execution contexts
+}
+```
+- The Execution Context Object
+The execution context can be represented as an abstract object like this:
+```javascript
+executionContextObject = {
+    'scopeChain': {}, // contains its own variableObject and other variableObject of the parent execution contexts
+    'variableObject': {}, // contains function arguments, inner variable and function declarations
+    'this': valueOfThis
+}
+```
+## Code Execution Phase
+In the second phase of the execution context, that is the code execution phase, other values are assigned and the code is finally executed.
+
+
 # Lexical vs dynamic scope
 - JavaScript does not, in fact, have dynamic scope. It has lexical scope. But the `this` mechanism is kind of like dynamic scope.
 - The key contrast: lexical scope is write-time, whereas dynamic scope (and `this`!) are runtime. Lexical scope cares where a function was declared, but dynamic scope cares where a function was called from.
 - Finally: `this` cares how a function was called, which shows how closely related the `this` mechanism is to the idea of dynamic scoping.
 
 
-# Global, local block scope
-- The Global scope
-  A variable exists inside or outside a block. If a variable is declared outside all functions or curly braces ({}), it exists in the global scope. The global variables can be accessed by any line of code in the program, including inside blocks.
-- The Local scope
+# Global, local and block scope
+- **The Global scope**
+  Variables defined outside any function, block, or module scope have global scope. Variables in global scope can be accessed from everywhere in the application.
+- **Module scope**: In a module, a variable declared outside any function is hidden and not available to other modules unless it is explicitly exported.
+- **The Local scope**
   In contrast to global variables, locally scoped ones are only visible within the function they are declared. Each function written in JavaScript creates a new local scope and every variable declared in this scope is a local variable. That means that variables with the same name can be used in different functions. However, any effort to reference a local variable outside its scope will result in a Reference Error.
-- The Block scope
+- **The Block scope**
   - So far, we’ve seen variables defined with the var keyword. Var can declare a variable either in the global or local scope. The variables that are declared within the block scope are comparable to local ones. They are available within the block that they are defined.
   - The main difference between the local scope and block scope is that the block statements (e.g. if conditions or for loops), don't create a new scope. So the var keyword will not have an effect, because the variables are still in the same scope.
   - ES6 introduced block scope by using the let and const keywords. These two keywords are scoped within the block which are defined.
@@ -127,10 +175,62 @@ It has different values depending on where it is used:
 - In a function, in strict mode, this is undefined.
 - In an event, this refers to the element that received the event.
 - Methods like call(), and apply() can refer this to any object paased as an argument.
-
+- this inside an arrow function always 'inherits' the this from the enclosing scope.
 - [More on MDN...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
 - [More on W3Schools...](https://www.w3schools.com/js/js_this.asp)
 
+
+# Arrow functions an binding to `this`:
+In arrow functions, this retains the value of the enclosing lexical context's this. In global code, it will be set to the global object.
+- Default "this" context
+Arrow functions do not bind their own this, instead, they inherit the one from the parent scope, which is called "lexical scoping". This makes arrow functions to be a great choice in some scenarios but a very bad one in others
+```javascript
+const myFunction = () => {
+  console.log(this);
+};
+myFunction(); // this === winodw object
+```
+What can we expect this to be?.... exactly, same as with normal functions, window or global object. Same result but not the same reason. With normal functions the scoped is bound to the global one by default, arrows functions, as I said before, do not have their own this but they inherit it from the parent scope, in this case the global one.
+
+What would happen if we add "use strict"? Nothing, it will be the same result, since the scope comes from the parent one.
+- Arrow functions as methods
+```javascript
+const myObject = {
+  myMethod: () => {
+    console.log(this);
+  }
+};
+```
+What about now?
+In this case, one could say, that it really depends on how the method is called, same as normal functions, but that's not the case here, let's see...
+```javascript
+myObject.myMethod() // this === window or global object
+
+const myMethod = myObject.myMethod;
+myMethod() // this === window or global object
+```
+Weird right? Well, remember, arrow functions don't bind their own scope, but inherit it from the parent one, which in this case is window or the global object.
+
+Let's change the example a little bit
+```javascript
+const myObject = {
+  myArrowFunction: null,
+  myMethod: function () {
+    this.myArrowFunction = () => { console.log(this) };
+  }
+};
+```
+We need to call `myObject.myMethod()` to initialize `myObject.myArrowFunction` and then let's see what the output would be
+```javascript
+myObject.myMethod() // this === myObject
+
+myObject.myArrowFunction() // this === myObject
+
+const myArrowFunction = myObject.myArrowFunction;
+myArrowFunction() // this === myObject
+```
+Clearer now? When we call `myObject.myMethod()`, we initialize `myObject.myArrowFunction` with an arrow function which is inside of the method myMethod, so it will inherit its scope. We can clearly see a perfect use case, closures.
+[More...](https://www.codementor.io/@dariogarciamoya/understanding-this-in-javascript-with-arrow-functions-gcpjwfyuc)
 
 # Automatically global scope:
 If you assign a value to a variable that has not been declared, it will automatically become a GLOBAL variable.
@@ -143,15 +243,11 @@ function myFunction() {
 }
 ```
 
-
-# What are the ways to manipulate scope and reference to this?
-
-
 > [Scope on scotch](https://scotch.io/tutorials/understanding-scope-in-javascript)
 
 
 > # Objects
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Explain how prototypal inheritance works?
 JavaScript objects are dynamic "bags" of properties (referred to as own properties). JavaScript objects have a link to a prototype object. When trying to access a property of an object, the property will not only be sought on the object but on the prototype of the object, the prototype of the prototype, and so on until either a property with a matching name is found or the end of the prototype chain is reached.
@@ -188,20 +284,42 @@ realName; // => 'Bruce Wayne'
 
 
 > # Functions
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # What is a closure, and how/why would you use one?
 A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time.
+
+The concept of closures is closely related to Lexical Scope, which we studied above. A Closure is created when an inner function tries to access the scope chain of its outer function meaning the variables outside of the immediate lexical scope. Closures contain their own scope chain, the scope chain of their parents and the global scope.
+A closure can also access the variables of its outer function even after the function has returned. This allows the returned function to maintain access to all the resources of the outer function.
+
+When you return an inner function from a function, that returned function will not be called when you try to call the outer function. You must first save the invocation of the outer function in a separate variable and then call the variable as a function. Consider this example:
+```javascript
+function greet() {
+    name = 'Hammad';
+    return function () {
+        console.log('Hi ' + name);
+    }
+}
+greet(); // nothing happens, no errors
+// the returned function from greet() gets saved in greetLetter
+greetLetter = greet();
+ // calling greetLetter calls the returned function from the greet() function
+greetLetter(); // logs 'Hi Hammad'
+```
+Another type of closure is the Immediately-Invoked Function Expression (IIFE).
 [Know more...](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)
 
 
 # IIFE
-An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined. 
+- An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined.
+- Another type of closure is the Immediately-Invoked Function Expression (IIFE).
 [MDN](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
 
 
 # What is arrow function? How it differs from function?
-
+Not Constructor functions
+This bidning
+There are other many interesting peculiarities of arrow functions, like arguments or prototype
 
 
 # function types
@@ -251,7 +369,7 @@ The apply() method calls a function with a given this value, and arguments provi
 
 
 > # Event handling:
----------------------------------------------------------------------------------------------------------------------------------------------
+
 # Explain event delegation
 - The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor.
 - In the handler we get event.target to see where the event actually happened and handle it.
@@ -273,7 +391,7 @@ When an event is fired on an element that has parent elements , modern browsers 
 
 
 > # Concurrency model and Event Loop
----------------------------------------------------------------------------------------------------------------------------------------------
+
 # Promise
 
 
@@ -318,7 +436,7 @@ new Promise((resolve, reject) => {
 
 
 # - ES6 features:
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # What are ES6 features?
 ES6 includes the following new features:
@@ -370,7 +488,7 @@ Spread syntax (...) allows an iterable such as an array expression or string to 
 
 
 # Collections: Keyed collections, Indexed collections (Arrays) 
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Keyed collections, Indexed collections
 - Keyed collections [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections)
@@ -422,7 +540,7 @@ Spread syntax (...) allows an iterable such as an array expression or string to 
 
 
 # - Memory and storages
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # How to find memory leaks in JavaScript?
 # JavaScript memory management
@@ -435,7 +553,7 @@ Spread syntax (...) allows an iterable such as an array expression or string to 
 
 
 # - Network operations
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # Debouncing and Throttling in JavaScript
 - **Throttling** will delay executing a function. It will reduce the notifications of an event that fires multiple times.
@@ -448,14 +566,14 @@ Spread syntax (...) allows an iterable such as an array expression or string to 
 
 
 # - Performance related:
----------------------------------------------------------------------------------------------------------------------------------------------
+
 # What tools would you use to find a performance bug in your code?
 # What are some ways you may improve your website's scrolling performance?
 # Explain the difference between layout, painting and compositing.
 
 
 # - Debugging and Error handling
----------------------------------------------------------------------------------------------------------------------------------------------
+
 # What tools and techniques do you use debugging JavaScript code?
 
 # Exceptions & error handling
@@ -502,11 +620,13 @@ Read more on MDN:
 - [try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
 - [throw](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw)
 
----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# What are modules?
+
 
 # Rarely asked:
----------------------------------------------------------------------------------------------------------------------------------------------
-
+===============================================================================================================================================
 
 # Array.prototype.map()
 The map() method creates a new array populated with the results of calling a provided function on every element in the calling array.
@@ -855,7 +975,7 @@ https://www.code-sample.com/2018/04/angular-7-interview-questions-and.html?m=1
 # 8. Time saving tips: 
 https://blog.angularindepth.com/beware-angular-can-steal-your-time-41fe589483df
 
----------------------------------------------------------------------------------------------------------------------------------------------
+
 # Good to know:
----------------------------------------------------------------------------------------------------------------------------------------------
+
 
