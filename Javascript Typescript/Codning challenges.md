@@ -36,14 +36,13 @@ console.log(uniques);
 # Output?
 ```javascript
 var x = 23;
-
 (function(){
-var x = 43;
-(function random(){
-x++;
-console.log(x);
-var x = 21;
-})();
+  var x = 43;
+  (function random(){
+    x++;
+    console.log(x);
+    var x = 21;
+  })();
 })();
 ```
 `NaN` // Due to hoisting within IIFE
@@ -172,3 +171,20 @@ let newArr = arr.map(e=>{
 arr[0].splice(1,0,4);
 arr[1].splice(1,0,4)
 ```
+
+
+
+> Hoisting in Action
+
+# Output?
+```javascript
+var x = 10;
+function test(){
+  if (x > 20) {
+    var x = 50;  // x is hoisted but never defined
+  }
+  console.log(x); // Umdefined
+}
+test();
+```
+
