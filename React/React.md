@@ -1,12 +1,5 @@
-
 # React
 
-- What is react?
-hjgjhg
+The library for web and native user interfaces
 
-- jhgjhgjhg
-dsfsdf
 
-jhghjgjhgjhgjhg
-
-- jjhgjhg
