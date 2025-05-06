@@ -1,5 +1,3 @@
-# What is JavaScript?
-JavaScript (JS) is a lightweight interpreted or JIT-compiled programming language with first-class functions.
 
 > # Data types and scope
 

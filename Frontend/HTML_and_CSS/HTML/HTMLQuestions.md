@@ -246,3 +246,61 @@ Web Workers makes it possible to run a script operation in a background thread s
 
 
 #  What is progressive rendering?
+
+
+🧩 Bonus HTML Topics to Consider
+🔐 Security-related Tags
+ rel="noopener noreferrer" (for external links to avoid tab-nabbing)
+
+ sandbox attribute on <iframe>
+
+ content-security-policy via meta
+
+⚙️ Performance Optimization
+ defer and async with <script>
+
+ Preloading resources (<link rel="preload">)
+
+ Prefetch, dns-prefetch, preconnect
+
+🖼️ Advanced Image Handling
+ WebP, AVIF support
+
+ <figure> and <figcaption>
+
+ srcset and sizes for responsive images
+
+📦 HTML with Integrations
+ Embedding 3rd-party widgets (Twitter, Google Maps, Disqus)
+
+ Using data-* with JavaScript for dynamic content
+
+ <template> tag for client-side rendering (like in frameworks)
+
+🧪 Validation & Best Practices
+ Using W3C Validator
+
+ Accessibility audits (via Lighthouse, axe DevTools)
+
+ SEO-friendly HTML structure
+
+📚 Content Organization Tags
+ <details> and <summary> (for collapsible content)
+
+ <mark>, <time>, <progress>, <meter>, <output>
+
+ 🔬 Experimental / Future HTML
+ Web Components (<template>, <slot>, <shadow-root>)
+
+ Declarative Shadow DOM (used in web components)
+
+ <dialog> tag for native modal support
+
+🛠️ Custom Elements / Web Components
+ <custom-element> via customElements.define()
+
+ Shadow DOM basics
+
+ HTML templates & slots
+
+ 
